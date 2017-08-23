@@ -19,10 +19,17 @@ class NewStudySystems extends Component {
 		// Ask user to try again if study name exists
 		var res = AppService.addStudy(this.state.text);
 		this.setState({study: res});
-		if (res < 0) {
+		if (res == -1) {
 			Alert.alert(
-				'Invalid Name', 
+				'Error: Duplicate Entry', 
 				'A study with this name already exists.', 
+				[
+					{text: "Ok, I'll rename.", onPress: () => {} }
+				]);
+		} else if (res == -2) {
+			Alert.alert(
+				'Error: Invalid Entry', 
+				'A study must have a non-empty name.', 
 				[
 					{text: "Ok, I'll rename.", onPress: () => {} }
 				]);

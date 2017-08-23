@@ -5,11 +5,21 @@ import BoxScrollView from  '../components/BoxScrollView';
 import TouchableBox from '../components/TouchableBox';
 
 const styles = StyleSheet.create({
+	home: {
+		flex: 1,
+		alignItems: 'center',
+		flexDirection: 'column',
+		justifyContent: 'space-around'
+	},
 	existing: {
-		flex: 3,
+		flex: 1,
 		alignItems: 'center',
 		alignContent: 'flex-start',
 		justifyContent: 'center',
+		marginTop: 15,
+		marginBottom: 10
+	},
+	bottom: {
 		marginBottom: 15
 	}
 });
@@ -20,11 +30,30 @@ class Study extends Component {
 	}
 
 	handleOpenSystem = (system) => {
-		
+		this.props.navigator.push({
+			screen: 'mobilesus.System',
+			title: AppService.parseAppendedName(system.name),
+			animated: true,
+			backButtonHidden: true,
+			passProps: {
+				studyName: this.props.studyName,
+				systemName: system.name
+			}
+		})
 	}
 
-	parseSystemName = (name) => {
-		return name.substring(name.indexOf(".") + 1, name.length);
+	handleEmail = () => {
+		console.log("Email");
+		AppService.exportStudy(this.props.studyName);
+	}
+
+	handleDelete = () => {
+		AppService.removeStudy(this.props.studyName);
+		this.props.navigator.resetTo({
+			screen: 'mobilesus.Home',
+			title: 'SUS App',
+			animated: true
+		});
 	}
 
 	renderSystems() {
@@ -32,13 +61,12 @@ class Study extends Component {
 		let systems = study.systems;
 
 		return systems.map((system, i) => {
-			console.log(this.parseSystemName(system.name));
 			return (
 				<TouchableBox 
 					key = {i}
 					onPress = { () => this.handleOpenSystem(system) }
-					backgroundColor = {{backgroundColor: "white"}}
-					text = {this.parseSystemName(system.name)}
+					backgroundColor = {{backgroundColor: "#E1EDF7"}}
+					text = {AppService.parseAppendedName(system.name)}
 					textColor = {{color: "#000"}}
 				/>
 			);
@@ -47,9 +75,25 @@ class Study extends Component {
 
 	render() {
 		return (
-			<BoxScrollView outerStyle = {styles.existing} text = "Collect Data">
-				{this.renderSystems()}
-			</BoxScrollView>
+			<View style={styles.home}>
+				<BoxScrollView outerStyle = {styles.existing} text = "Collect Data">
+					{this.renderSystems()}
+				</BoxScrollView>
+				<View style={styles.bottom}>
+					<TouchableBox 
+						onPress = { () => this.handleEmail() }
+						backgroundColor = {{backgroundColor: "#D3D3D3"}}
+						text = "Email Study Data"
+						textColor = {{color: "#000"}}
+					/>
+					<TouchableBox 
+						onPress = { () => this.handleDelete() }
+						backgroundColor = {{backgroundColor: "red"}}
+						text = "Delete Study and Data"
+						textColor = {{color: "#000"}}
+					/>
+				</View>
+			</View>
 		);
 	}
 }

@@ -1,6 +1,5 @@
-
 import React, { Component } from 'react';
-import { View, Text, TextInput, Button } from 'react-native';
+import { View, Text, TextInput, Button, Alert } from 'react-native';
 import AppService from '../../AppService';
 
 class NewStudySystems extends Component {
@@ -12,13 +11,29 @@ class NewStudySystems extends Component {
 
 	handleFinish = () => {
 		// Save data to Realm
-		AppService.addSystems(this.props.name, Object.values(this.state));
-		// Reset back to home screen
-		this.props.navigator.resetTo({
-			screen: 'mobilesus.Home',
-			title: 'SUS App',
-			animated: true
-		});
+		var res = AppService.addSystems(this.props.name, Object.values(this.state));
+		if (res == -1) {
+			Alert.alert(
+				'Error: Duplicate Entry', 
+				'Duplicate systems / products entered.', 
+				[
+					{text: "Ok, I'll rename.", onPress: () => {} }
+				]);
+		} else if (res == -2) {
+			Alert.alert(
+				'Error: Invalid Entry', 
+				'Must create at least one system / product.', 
+				[
+					{text: "Ok, I'll create one.", onPress: () => {} }
+				]);
+		} else {
+			// Reset back to home screen
+			this.props.navigator.resetTo({
+				screen: 'mobilesus.Home',
+				title: 'SUS App',
+				animated: true
+			});
+		}
 	}
 
 	handleBack = () => {

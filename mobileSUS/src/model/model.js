@@ -24,17 +24,17 @@ export const ParticipantSchema = {
 	name: 'Participant',
 	primaryKey: 'id',
 	properties: {
-		name: 'string',
 		id: 'string',
-		gender: 'string',
 		date: 'date',
-		survey: {type: 'list', objectType: 'Int'}
+		survey: {type: 'list', objectType: 'Score'}
 	}
 };
 
-export const RealmInt = {
-	name: 'Int',
+export const ScoreSchema = {
+	name: 'Score',
+	primaryKey: 'id',
 	properties: {
+		id: 'string',
 		value: 'int'
 	}
 };
