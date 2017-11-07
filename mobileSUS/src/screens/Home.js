@@ -27,7 +27,13 @@ const styles = StyleSheet.create({
 		alignItems: 'center',
 		alignContent: 'flex-start',
 		justifyContent: 'center',
+		marginTop: 15,
 		marginBottom: 15
+	},
+	nonexisting: {
+		flex: 3,
+		alignItems: 'center',
+		justifyContent: 'center'
 	},
 	existingText: {
 		marginBottom: 5
@@ -48,6 +54,7 @@ class Home extends Component {
 		this.props.navigator.push({
 			screen: 'mobilesus.Study',
 			title: study.name,
+			backButtonTitle: "Back",
 			passProps: {
 				studyName: study.name
 			}
@@ -73,18 +80,30 @@ class Home extends Component {
 	render() {
 		// Get all existing studies
 		let studies = AppService.getStudies();
+
+		var existing;
+		if (studies.length != 0) {
+			existing = 	<BoxScrollView outerStyle = {styles.existing} text = "Existing Studies">
+							{this.renderStudies()}
+						</BoxScrollView>
+		} else {
+			existing = 	<View style = {styles.nonexisting}> 
+							<Text> No Existing Studies </Text> 
+						</View>
+		}
+
 		return (
 				<View style = {[styles.home, {backgroundColor: "#F2F2F2"}]}>
+					{existing}
 					<View style = {styles.start}>
-						<Button
-							style = {{width: 250, height: 80}}
+						<TouchableBox
 							onPress = {this.handleNewStudy}
-							title = "Create a New Study"
+							text = "Start a New Study"
+							backgroundColor = {{backgroundColor: "blue"}}
+							textColor = {{color: "white"}}
 						/>
 					</View>
-					<BoxScrollView outerStyle = {styles.existing} text = "Existing Studies">
-						{this.renderStudies()}
-					</BoxScrollView>
+					
 				</View>
 
 			);

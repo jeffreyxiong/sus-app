@@ -1,6 +1,28 @@
 import React, { Component } from 'react';
-import { View, Text, TextInput, Button, Alert } from 'react-native';
+import { View, Text, TextInput, Button, Alert, StyleSheet } from 'react-native';
 import AppService from '../../AppService';
+
+const styles = StyleSheet.create({
+	textField: {
+		marginTop: 15,
+		marginLeft: 15,
+		marginRight: 15,
+		height: 50, 
+		borderColor: 'gray', 
+		borderBottomWidth: 1
+	},
+	question: {
+		marginTop: 15,
+		marginLeft: 15
+	},
+	buttons: {
+		marginTop: 15,
+		marginLeft: 15,
+		marginRight: 15,
+		flexDirection: 'row',
+		justifyContent: 'space-between'
+	}
+});
 
 class NewStudySystems extends Component {
 
@@ -47,25 +69,28 @@ class NewStudySystems extends Component {
 		return (
 				<View>
 					<View>
-						<Text> Enter the name(s) of the systems or products you will be testing: </Text>
+						<Text style = {styles.question}>Enter the name(s) of the systems or products you will be testing:</Text>
 						<TextInput 
-							style = {{height: 50, borderColor: 'gray', borderWidth: 1}}
+							style = {styles.textField}
 							onChangeText = {(text1) => this.setState({text1})}
 							value = {this.state.text1}
+							placeholder = "System Name"
 						/>
 						<TextInput 
-							style = {{height: 50, borderColor: 'gray', borderWidth: 1}}
+							style = {styles.textField}
 							onChangeText = {(text2) => this.setState({text2})}
 							value = {this.state.text2}
+							placeholder = "System Name"
 						/>
 						<TextInput 
-							style = {{height: 50, borderColor: 'gray', borderWidth: 1}}
+							style = {styles.textField}
 							onChangeText = {(text3) => this.setState({text3})}
 							value = {this.state.text3}
+							placeholder = "System Name"
 						/>
 					</View>
-					<View>
-						<Button 
+					<View style = {styles.buttons}>
+						<Button
 							onPress = {this.handleBack}
 							title = "Back"
 						/>

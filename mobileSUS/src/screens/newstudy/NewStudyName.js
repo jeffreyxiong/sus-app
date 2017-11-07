@@ -4,8 +4,25 @@ import { View, Text, TextInput, Button, Alert, StyleSheet } from 'react-native';
 import AppService from '../../AppService';
 
 const styles = StyleSheet.create({
-
-
+	textField: {
+		marginTop: 15,
+		marginLeft: 15,
+		marginRight: 15,
+		height: 50, 
+		borderColor: 'gray', 
+		borderBottomWidth: 1
+	},
+	question: {
+		marginTop: 15,
+		marginLeft: 15
+	},
+	buttons: {
+		marginTop: 15,
+		marginLeft: 15,
+		marginRight: 15,
+		flexDirection: 'row',
+		justifyContent: 'space-between'
+	}
 });
 
 class NewStudySystems extends Component {
@@ -63,16 +80,16 @@ class NewStudySystems extends Component {
 	render () {
 		return (
 				<View>
-					<View>
-						<Text> Enter the name of the study: </Text>
+					<View style = {styles.form}>
+						<Text style = {styles.question}>Enter the name of the study:</Text>
 						<TextInput 
-							style = {{height: 50, borderColor: 'gray', borderWidth: 1}}
+							style = {styles.textField}
 							onChangeText = {(text) => this._handleChange(text)}
 							value = {this.state.text}
 							placeholder = "Name"
 						/>
 					</View>
-					<View>
+					<View style = {styles.buttons}>
 						<Button 
 							onPress = {this._handleBack}
 							title = "Back"

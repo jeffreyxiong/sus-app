@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Platform, View, Text, StyleSheet, Button, ScrollView, TouchableOpacity } from 'react-native';
+import { Platform, View, Text, StyleSheet, Button, ScrollView, TouchableOpacity, Alert } from 'react-native';
 import AppService from '../AppService';
 import BoxScrollView from  '../components/BoxScrollView';
 import TouchableBox from '../components/TouchableBox';
@@ -34,7 +34,7 @@ class Study extends Component {
 			screen: 'mobilesus.System',
 			title: AppService.parseAppendedName(system.name),
 			animated: true,
-			backButtonHidden: true,
+			backButtonTitle: "Back",
 			passProps: {
 				studyName: this.props.studyName,
 				systemName: system.name
@@ -48,6 +48,18 @@ class Study extends Component {
 	}
 
 	handleDelete = () => {
+		Alert.alert(
+		  'Delete ' + this.props.studyName,
+		  'Are you sure you want to delete this study?',
+		  [
+		    {text: 'Ok', onPress: () => this.handleDeleteConfirm()},
+		    {text: 'Cancel', onPress: () => {} },
+		  ]
+		)
+		
+	}
+
+	handleDeleteConfirm = () => {
 		AppService.removeStudy(this.props.studyName);
 		this.props.navigator.resetTo({
 			screen: 'mobilesus.Home',
