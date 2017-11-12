@@ -1,4 +1,4 @@
-// var MailGun = require('mailgun-es6');
+var MailGun = require('mailgun-es6');
 var RNFS = require('react-native-fs');
 
 var apiKey = "key-fe27c961e1555cfa2e5226a4b5c9e280";
