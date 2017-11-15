@@ -29,17 +29,28 @@ class Study extends Component {
 		super(props);
 	}
 
-	handleOpenSystem = (system) => {
+	handleAddParticipant = () => {
 		this.props.navigator.push({
-			screen: 'mobilesus.System',
-			title: AppService.parseAppendedName(system.name),
+			screen: 'mobilesus.ParticipantStart',
+			title: this.props.studyName,
+			animated: true,
+			backButtonHidden: true,
+			passProps: {
+				studyName: this.props.studyName
+			}
+		});
+	}
+
+	handleViewData = () => {
+		this.props.navigator.push({
+			screen: 'mobilesus.DataView',
+			title: this.props.studyName + ' Data',
 			animated: true,
 			backButtonTitle: "Back",
 			passProps: {
 				studyName: this.props.studyName,
-				systemName: system.name
 			}
-		})
+		});
 	}
 
 	handleEmail = () => {
@@ -68,34 +79,26 @@ class Study extends Component {
 		});
 	}
 
-	renderSystems() {
-		let study = AppService.getStudy(this.props.studyName);
-		let systems = study.systems;
-
-		return systems.map((system, i) => {
-			return (
-				<TouchableBox 
-					key = {i}
-					onPress = { () => this.handleOpenSystem(system) }
-					backgroundColor = {{backgroundColor: "#E1EDF7"}}
-					text = {AppService.parseAppendedName(system.name)}
-					textColor = {{color: "#000"}}
-				/>
-			);
-		});
-	}
-
 	render() {
 		return (
 			<View style={styles.home}>
-				<BoxScrollView outerStyle = {styles.existing} text = "Collect Data">
-					{this.renderSystems()}
-				</BoxScrollView>
 				<View style={styles.bottom}>
+					<TouchableBox 
+						onPress = { () => this.handleAddParticipant() }
+						backgroundColor = {{backgroundColor: "#D3D3D3"}}
+						text = "Add a New Participant"
+						textColor = {{color: "#000"}}
+					/>
+					<TouchableBox 
+						onPress = { () => this.handleViewData() }
+						backgroundColor = {{backgroundColor: "#D3D3D3"}}
+						text = "View Your Study's Data"
+						textColor = {{color: "#000"}}
+					/>
 					<TouchableBox 
 						onPress = { () => this.handleEmail() }
 						backgroundColor = {{backgroundColor: "#D3D3D3"}}
-						text = "Email Study Data"
+						text = "Email Your Study's Data"
 						textColor = {{color: "#000"}}
 					/>
 					<TouchableBox 

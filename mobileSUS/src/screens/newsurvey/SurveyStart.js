@@ -20,6 +20,12 @@ const styles = StyleSheet.create({
 		alignItems: 'center',
 		flexDirection: 'column',
 		justifyContent: 'space-around'
+	},
+	text: {
+		fontSize: 18
+	},
+	title: {
+		fontSize: 24
 	}
 });
 
@@ -44,12 +50,11 @@ class SurveyStart extends Component {
 		return (
 			<View style = {styles.home}>
 				<View style = {styles.instructions}>
-					<Text> Instructions </Text>
-					<Text> {'\u2022'} For each of the following questions: </Text>
-					<Text> {'\u2022'} Keep in mind the system you just used. </Text>
-					<Text> {'\u2022'} Reflect your immediate response to each statement. </Text>
-					<Text> {'\u2022'} Don't think too long on each one. </Text>
-					<Text> {'\u2022'} Make sure you respond to each statement. </Text>
+					<Text style={styles.text}> For each of the following questions: </Text>
+					<Text style={styles.text}> {'\u2022'} Keep in mind the system you just used. </Text>
+					<Text style={styles.text}> {'\u2022'} Reflect your immediate response to each statement. </Text>
+					<Text style={styles.text}> {'\u2022'} Don't think too long on each one. </Text>
+					<Text style={styles.text}> {'\u2022'} Make sure you respond to each statement. </Text>
 				</View>
 				<View style = {styles.start}>
 					<TouchableBox 
@@ -57,6 +62,7 @@ class SurveyStart extends Component {
 						backgroundColor = {{backgroundColor: "#D3D3D3"}}
 						text = "Start"
 						textColor = {{color: "#000"}}
+						size = {{width: 300, height: 80}}
 					/>
 				</View>
 			</View>

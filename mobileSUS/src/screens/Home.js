@@ -5,7 +5,7 @@
 // + List existing studies
 
 import React, { Component } from 'react';
-import { Platform, View, Text, StyleSheet, Button, ScrollView, TouchableOpacity } from 'react-native';
+import { Platform, View, Text, StyleSheet, Button, ScrollView } from 'react-native';
 import AppService from '../AppService';
 import BoxScrollView from  '../components/BoxScrollView';
 import TouchableBox from '../components/TouchableBox';
@@ -44,7 +44,7 @@ class Home extends Component {
 
 	handleNewStudy = () => {
 		this.props.navigator.push({
-			screen: 'mobilesus.NewStudyName',
+			screen: 'mobilesus.NewStudy',
 			title: 'Create a New Study',
 			backButtonHidden: true
 		});
@@ -72,6 +72,7 @@ class Home extends Component {
 					backgroundColor = {{backgroundColor: "white"}}
 					text = {study.name}
 					textColor = {{color: "#000"}}
+					size = {{width: 300, height: 80}}
 				/>
 			);
 		});
@@ -101,6 +102,7 @@ class Home extends Component {
 							text = "Start a New Study"
 							backgroundColor = {{backgroundColor: "blue"}}
 							textColor = {{color: "white"}}
+							size = {{width: 300, height: 80}}
 						/>
 					</View>
 					

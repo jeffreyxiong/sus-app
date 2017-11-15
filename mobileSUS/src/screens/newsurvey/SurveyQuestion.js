@@ -26,6 +26,9 @@ const styles = StyleSheet.create({
 		flex: 1,
 		flexDirection: 'column',
 		justifyContent: 'space-between'
+	},
+	text: {
+		fontSize: 18
 	}
 });
 
@@ -130,7 +133,7 @@ class SurveyQuestion extends Component {
 			<View>
 				<View style = {styles.home}>
 					<View style = {styles.instructions}>
-						<Text> {questions[this.state.qid]} </Text>
+						<Text style={styles.text}> {questions[this.state.qid]} </Text>
 					</View>
 					<View style = {styles.form}>
 				        { form }

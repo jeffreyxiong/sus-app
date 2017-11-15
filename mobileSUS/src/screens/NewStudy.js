@@ -1,9 +1,14 @@
 
 import React, { Component } from 'react';
 import { View, Text, TextInput, Button, Alert, StyleSheet } from 'react-native';
-import AppService from '../../AppService';
+import AppService from '../AppService';
 
 const styles = StyleSheet.create({
+	main: {
+		flex: 1,
+		flexDirection: 'column',
+		justifyContent: 'space-around'
+	},
 	textField: {
 		marginTop: 15,
 		marginLeft: 15,
@@ -14,18 +19,20 @@ const styles = StyleSheet.create({
 	},
 	question: {
 		marginTop: 15,
-		marginLeft: 15
+		marginLeft: 15,
+		fontSize: 18
+	},
+	form: {
+		flex: 1
 	},
 	buttons: {
-		marginTop: 15,
-		marginLeft: 15,
-		marginRight: 15,
+		flex: 1,
 		flexDirection: 'row',
-		justifyContent: 'space-between'
+		justifyContent: 'space-around'
 	}
 });
 
-class NewStudySystems extends Component {
+class NewStudy extends Component {
 
 	constructor(props) {
 		super(props);
@@ -51,20 +58,13 @@ class NewStudySystems extends Component {
 					{text: "Ok, I'll rename.", onPress: () => {} }
 				]);
 		} else {
-			this.props.navigator.push({
-				screen: 'mobilesus.NewStudySystems',
-				title: this.state.text,
-				passProps: {
-					name: this.state.text,
-					callback: this.clearStudy
-				},
-				backButtonHidden: true
+			// Reset back to home screen
+			this.props.navigator.resetTo({
+				screen: 'mobilesus.Home',
+				title: 'SUS App',
+				animated: true
 			});
 		}		
-	}
-
-	clearStudy = (name) => {
-		AppService.removeStudy(name);
 	}
 
 	_handleBack = () => {
@@ -77,9 +77,14 @@ class NewStudySystems extends Component {
 		this.setState({text});
 	}
 
+	clearStudy = (name) => {
+		AppService.removeStudy(name);
+	}
+
+
 	render () {
 		return (
-				<View>
+				<View style = {styles.main}>
 					<View style = {styles.form}>
 						<Text style = {styles.question}>Enter the name of the study:</Text>
 						<TextInput 
@@ -104,4 +109,4 @@ class NewStudySystems extends Component {
 	}
 }
 
-export default NewStudySystems;
+export default NewStudy;

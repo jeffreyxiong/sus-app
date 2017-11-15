@@ -19,12 +19,14 @@ const styles = StyleSheet.create({
 class TouchableBox extends Component {
 
 	render() {
-		const { onPress, backgroundColor, text, textColor } = this.props;
-
+		const { onPress, backgroundColor, text, textColor, size } = this.props;
+		// TouchableNativeFeedback for Android
 		return (
-			<View style = { [styles.view, backgroundColor, {width: 300, height: 80}] }>
+			<View>
 				<TouchableOpacity onPress = { onPress }>
-					<Text style = { [styles.text, textColor] }> { text } </Text>
+					<View style = { [styles.view, backgroundColor, {width: 300, height: 80}] }>
+						<Text style = { [styles.text, textColor] }> { text } </Text>
+					</View>
 				</TouchableOpacity>
 			</View>
 

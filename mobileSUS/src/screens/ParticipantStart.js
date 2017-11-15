@@ -44,7 +44,7 @@ class ParticipantStart extends Component {
 
 	_handleContinue = () => {
 		console.log(this.state.participantText);
-		let res = AppService.addParticipant(this.props.systemName, this.state.participantText);
+		let res = AppService.addParticipant(this.props.studyName, this.state.participantText);
 		if (res == -1) {
 			Alert.alert(
 				'Error: Duplicate Entry', 
@@ -64,9 +64,8 @@ class ParticipantStart extends Component {
 				screen: 'mobilesus.SurveyStart',
 				title: "SUS Instructions",
 				passProps: {
-					participantID: this.props.systemName + "." + this.state.participantText,
-					studyName: this.props.studyName,
-					systemName: this.props.systemName
+					participantID: this.props.studyName + "." + this.state.participantText,
+					studyName: this.props.studyName
 				},
 				backButtonHidden: true
 			})

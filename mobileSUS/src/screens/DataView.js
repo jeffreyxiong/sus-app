@@ -8,7 +8,11 @@ class DataView extends Component {
 
 
 	render() {
-
+		return (
+			<View>
+				<Text> TBD </Text>
+			</View>
+		);
 	}
 
 	handle = () => {
