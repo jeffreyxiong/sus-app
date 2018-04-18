@@ -3,6 +3,7 @@ import { Platform, View, Text, StyleSheet, Button, ScrollView, TouchableOpacity,
 import AppService from '../AppService';
 import BoxScrollView from  '../components/BoxScrollView';
 import TouchableBox from '../components/TouchableBox';
+import SliderView from '../components/SliderView';
 
 const styles = StyleSheet.create({
 	home: {
@@ -11,66 +12,76 @@ const styles = StyleSheet.create({
 		flexDirection: 'column',
 		justifyContent: 'space-around'
 	},
-	existing: {
-		flex: 1,
-		alignItems: 'center',
-		alignContent: 'flex-start',
-		justifyContent: 'center',
-		marginTop: 15,
-		marginBottom: 10
-	},
 	bottom: {
+		flex: 1,
+		justifyContent: 'flex-end',
 		marginBottom: 15
 	}
 });
 
 class Study extends Component {
+
+	static navigatorButtons = {
+		rightButtons: [
+			{
+				icon: require('../../assets/delete.png'),
+				disableIconTint: true,
+				id: 'delete',
+			}
+		]
+	  };
+
 	constructor(props) {
 		super(props);
+
+		this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent.bind(this));
 	}
 
-	handleAddParticipant = () => {
+	onNavigatorEvent(event) {
+		if (event.type == 'NavBarButtonPress') { // this is the event type for button presses
+		  	if (event.id == 'delete') { // this is the same id field from the static navigatorButtons definition
+				this._handleDelete();
+		  	}
+		}
+	}
+
+	_handleAddParticipant = () => {
 		this.props.navigator.push({
 			screen: 'mobilesus.ParticipantStart',
 			title: this.props.studyName,
 			animated: true,
-			backButtonHidden: true,
+			backButtonTitle: "",
 			passProps: {
 				studyName: this.props.studyName
 			}
 		});
 	}
 
-	handleViewData = () => {
+	_handleEmail = () => {
 		this.props.navigator.push({
-			screen: 'mobilesus.DataView',
-			title: this.props.studyName + ' Data',
-			animated: true,
-			backButtonTitle: "Back",
+			screen: 'mobilesus.Email',
+			title: 'Email ' + this.props.studyName + ' Data',
+			animate: true,
+			backButtonTitle: "",
 			passProps: {
-				studyName: this.props.studyName,
+				studyName: this.props.studyName
 			}
-		});
+		})
 	}
 
-	handleEmail = () => {
-		console.log("Email");
-		AppService.exportStudy(this.props.studyName);
-	}
-
-	handleDelete = () => {
+	_handleDelete = () => {
 		Alert.alert(
 		  'Delete ' + this.props.studyName,
-		  'Are you sure you want to delete this study?',
+		  'Are you sure you want to delete this product?',
 		  [
-		    {text: 'Ok', onPress: () => this.handleDeleteConfirm()},
+		    {text: 'Ok', onPress: () => this._handleDeleteConfirm()},
 		    {text: 'Cancel', onPress: () => {} },
 		  ]
 		)
 		
 	}
 
-	handleDeleteConfirm = () => {
+	_handleDeleteConfirm = () => {
 		AppService.removeStudy(this.props.studyName);
 		this.props.navigator.resetTo({
 			screen: 'mobilesus.Home',
@@ -80,32 +91,31 @@ class Study extends Component {
 	}
 
 	render() {
+		dataSet = AppService.getStat(this.props.studyName)
 		return (
-			<View style={styles.home}>
-				<View style={styles.bottom}>
+			<View style={ styles.home }>
+				<SliderView
+					description = { this.props.studyDescription }
+					count = { dataSet.size }
+					mean = { dataSet.mean }
+					std = { dataSet.std }
+					max = { dataSet.max }
+					min = { dataSet.min }
+				/>
+				<View style={ styles.bottom }>
+					<TouchableBox
+						onPress = { this._handleEmail }
+						disabled = { false }
+						style = { { width: 300, height: 80, backgroundColor: "#69A6D7" } }
+						textStyle = { { color: "white" } }
+						text = "Email Product Data"
+					/>
 					<TouchableBox 
-						onPress = { () => this.handleAddParticipant() }
-						backgroundColor = {{backgroundColor: "#D3D3D3"}}
+						onPress = { this._handleAddParticipant }
+						disabled = { false }
+						style = { { width: 300, height: 80, backgroundColor: "#69A6D7" } }
+						textStyle = { { color: "white" } }
 						text = "Add a New Participant"
-						textColor = {{color: "#000"}}
-					/>
-					<TouchableBox 
-						onPress = { () => this.handleViewData() }
-						backgroundColor = {{backgroundColor: "#D3D3D3"}}
-						text = "View Your Study's Data"
-						textColor = {{color: "#000"}}
-					/>
-					<TouchableBox 
-						onPress = { () => this.handleEmail() }
-						backgroundColor = {{backgroundColor: "#D3D3D3"}}
-						text = "Email Your Study's Data"
-						textColor = {{color: "#000"}}
-					/>
-					<TouchableBox 
-						onPress = { () => this.handleDelete() }
-						backgroundColor = {{backgroundColor: "red"}}
-						text = "Delete Study and Data"
-						textColor = {{color: "#000"}}
 					/>
 				</View>
 			</View>

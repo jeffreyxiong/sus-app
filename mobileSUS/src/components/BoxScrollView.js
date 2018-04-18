@@ -1,19 +1,12 @@
 import React, { Component } from 'react';
 import { View, Text, StyleSheet, ScrollView } from 'react-native';
-import AppService from '../AppService';
 
-const styles = StyleSheet.create({
-	title: {
-		marginBottom: 5
-	}
-});
-
-class BoxScrollView extends Component {
+export default class BoxScrollView extends Component {
 	render () {
-		const { outerStyle, text, children } = this.props;
+		const { style, titleStyle, title, children } = this.props;
 		return (
-			<View style = { outerStyle }>
-				<Text style = {styles.title} > { text } </Text>
+			<View style = { style }>
+				<Text style = { titleStyle } > { title } </Text>
 				<ScrollView>
 					{ children }
 				</ScrollView>
@@ -21,5 +14,3 @@ class BoxScrollView extends Component {
 		);
 	}
 }
-
-export default BoxScrollView;

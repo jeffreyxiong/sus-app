@@ -1,41 +1,55 @@
 import React, { Component } from 'react';
-import { Platform, View, Text, StyleSheet, Button, TextInput, TouchableOpacity, Alert } from 'react-native';
+import { Platform, View, Text, StyleSheet, TextInput, Alert } from 'react-native';
 import AppService from '../AppService';
+import TouchableBox from '../components/TouchableBox';
 
 const styles = StyleSheet.create({
-	textField: {
-		marginTop: 15,
-		marginLeft: 15,
-		marginRight: 15,
-		height: 50, 
-		borderColor: 'gray', 
-		borderBottomWidth: 1
+	main: {
+		flex: 1,
+		flexDirection: 'column',
+		justifyContent: 'space-around'
 	},
-	multiTextField: {
-		marginTop: 15,
-		marginLeft: 15,
-		marginRight: 15,
-		height: 150, 
-		borderColor: 'gray', 
-		borderWidth: 1
+	form: {
+		flex: 3
+	},
+	textField: {
+		margin: 15,
+		borderColor: '#979797', 
+		borderWidth: 1,
+		borderRadius: 10,
+		padding: 15,
+		fontSize: 14
+	},
+	multilineTextField: {
+		height: 150,
+		paddingTop: 15,
+	},
+	prompt: {
+		margin: 15,
+		fontSize: 16,
+		fontWeight: '600'
 	},
 	question: {
 		marginTop: 15,
-		marginLeft: 15
-	},
-	buttons: {
-		marginTop: 15,
 		marginLeft: 15,
 		marginRight: 15,
-		flexDirection: 'row',
-		justifyContent: 'space-between'
+		fontSize: 16
+	},
+	section: {
+		marginTop: 10
+	},
+	buttons: {
+		flex: 1,
+		alignItems: 'center',
+		justifyContent: 'flex-end',
+		marginBottom: 15,
 	}
 });
 
 class ParticipantStart extends Component {
 	constructor(props) {
 		super(props);
-		this.state = {participantText: '', notesText: ''};
+		this.state = { participantText: '', notesText: '' };
 	}
 
 	_handleChange = (text) => {
@@ -44,7 +58,7 @@ class ParticipantStart extends Component {
 
 	_handleContinue = () => {
 		console.log(this.state.participantText);
-		let res = AppService.addParticipant(this.props.studyName, this.state.participantText);
+		let res = AppService.checkParticipant(this.props.studyName, this.state.participantText);
 		if (res == -1) {
 			Alert.alert(
 				'Error: Duplicate Entry', 
@@ -64,8 +78,9 @@ class ParticipantStart extends Component {
 				screen: 'mobilesus.SurveyStart',
 				title: "SUS Instructions",
 				passProps: {
-					participantID: this.props.studyName + "." + this.state.participantText,
-					studyName: this.props.studyName
+					participantName: this.state.participantText,
+					studyName: this.props.studyName,
+					notes: this.state.notesText
 				},
 				backButtonHidden: true
 			})
@@ -80,32 +95,41 @@ class ParticipantStart extends Component {
 
 	render () {
 		return (
-			<View>
-				<View>
-					<Text style = {styles.question}> Participant ID: </Text>
-					<TextInput 
-						style = {styles.textField}
-						onChangeText = {(participantText) => this._handleChange({participantText})}
-						value = {this.state.participantText}
-						placeholder = "Participant ID"
-					/>
-					<Text style = {styles.question}> Experimentor Notes: </Text>
-					<TextInput 
-						style = {styles.multiTextField}
-						onChangeText = {(notesText) => this._handleChange({notesText})}
-						multiline = {true}
-						value = {this.state.notesText}
-						placeholder = " Notes"
-					/>
+			<View style = { styles.main }>
+				<View style = { styles.form }>
+					<Text style = { styles.prompt }>After you create the participant, hand them the device to conduct a SUS survey.</Text>
+					<View style={ styles.section }>
+						<Text style = { styles.question }>Participant ID:</Text>
+						<TextInput 
+							style = { styles.textField }
+							onChangeText = { (participantText) => this._handleChange({ participantText }) }
+							value = { this.state.participantText }
+							returnKeyLabel = { "done" }
+							returnKeyType = { "done" }
+							placeholder = "ex: 001"
+						/>
+					</View>
+					<View style={ styles.section }>
+						<Text style = { styles.question }>Experimentor Notes:</Text>
+						<TextInput 
+							style = {[ styles.textField, styles.multilineTextField ]}
+							onChangeText = { (notesText) => this._handleChange({ notesText }) }
+							multiline = { true }
+							returnKeyLabel = { "done" }
+							returnKeyType = { "done" }
+							blurOnSubmit = { true }
+							value = { this.state.notesText }
+							placeholder = "ex: Stopped two times during experiment"
+						/>
+					</View>
 				</View>
-				<View>
-					<Button 
-						onPress = {this._handleBack}
-						title = "Back"
-					/>
-					<Button
-						onPress = {this._handleContinue}
-						title = "Continue"
+				<View style = { styles.buttons }>
+					<TouchableBox
+						onPress = { this._handleContinue }
+						disabled = { false }
+						style = { { width: 300, height: 80, backgroundColor: "#69A6D7" } }
+						textStyle = { { color: "white" } }
+						text = "Continue"
 					/>
 				</View>
 			</View>

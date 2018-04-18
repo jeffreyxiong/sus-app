@@ -3,33 +3,44 @@ import { View, Text, Button, StyleSheet } from 'react-native';
 import TouchableBox from '../../components/TouchableBox';
 
 const styles = StyleSheet.create({
-	instructions: {
+	main: {
 		flex: 1,
-		marginTop: 15,
-		marginBottom: 15,
-		marginLeft: 15,
-		marginRight: 15
-	},
-	start: {
-		flex: 2,
-		alignItems: 'center',
-		justifyContent: 'center'
-	},
-	home: {
-		flex: 1,
-		alignItems: 'center',
 		flexDirection: 'column',
 		justifyContent: 'space-around'
 	},
-	text: {
-		fontSize: 18
+	instructions: {
+		flex: 1,
+		margin: 15,
 	},
-	title: {
-		fontSize: 24
+	buttons: {
+		flex: 1,
+		alignItems: 'center',
+		justifyContent: 'flex-end',
+		marginBottom: 15,
+	},
+	columnText: {
+		flexDirection: 'row',
+		alignContent: 'center',
+		justifyContent: 'space-between'
+	},
+	prompt: {
+		margin: 15,
+		fontSize: 16,
+		fontWeight: '600'
+	},
+	text: {
+		fontSize: 16,
+		flex: 1, 
+		paddingLeft: 15,
+	},
+	bullet: {
+		flexDirection: 'row',
+		marginLeft: 10,
+		marginBottom: 15,
 	}
 });
 
-class SurveyStart extends Component {
+export default class SurveyStart extends Component {
 
 	constructor(props) {
 		super(props);
@@ -41,33 +52,47 @@ class SurveyStart extends Component {
 			title: 'SUS Survey',
 			animated: true,
 			passProps: {
-				participantID: this.props.participantID
+				participantName: this.props.participantName,
+				studyName: this.props.studyName,
+				notes: this.props.notes
 			}
 		});
 	}
 
 	render() {
 		return (
-			<View style = {styles.home}>
-				<View style = {styles.instructions}>
-					<Text style={styles.text}> For each of the following questions: </Text>
-					<Text style={styles.text}> {'\u2022'} Keep in mind the system you just used. </Text>
-					<Text style={styles.text}> {'\u2022'} Reflect your immediate response to each statement. </Text>
-					<Text style={styles.text}> {'\u2022'} Don't think too long on each one. </Text>
-					<Text style={styles.text}> {'\u2022'} Make sure you respond to each statement. </Text>
+			<View style = { styles.main }>
+				<View>
+					<Text style = { styles.prompt }>For each of the following questions:</Text>
 				</View>
-				<View style = {styles.start}>
-					<TouchableBox 
-						onPress = { () => this._handleStart() }
-						backgroundColor = {{backgroundColor: "#D3D3D3"}}
+				<View style = { styles.instructions }>
+					<View style = { styles.bullet }>
+						<Text style = { { fontSize: 16 } }>{ '\u2022' }</Text>
+						<Text style = { styles.text }>Keep in mind the system you just used.</Text>
+					</View>
+					<View style = { styles.bullet }>
+						<Text style = { { fontSize: 16 } }>{ '\u2022' }</Text>
+						<Text style = { styles.text }>Reflect your immediate response to each statement.</Text>
+					</View>
+					<View style = { styles.bullet }>
+						<Text style = { { fontSize: 16 } }>{ '\u2022' }</Text>
+						<Text style = { styles.text }>Don't think too long on each one.</Text>
+					</View>
+					<View style = { styles.bullet }>
+						<Text style = { { fontSize: 16 } }>{ '\u2022' }</Text>
+						<Text style = { styles.text }>Make sure you respond to each statement.</Text>
+					</View>
+				</View>
+				<View style = { styles.buttons }>
+					<TouchableBox
+						onPress = { this._handleStart }
+						disabled = { false }
+						style = { { width: 300, height: 80, backgroundColor: "#69A6D7" } }
+						textStyle = { { color: "white" } }
 						text = "Start"
-						textColor = {{color: "#000"}}
-						size = {{width: 300, height: 80}}
 					/>
 				</View>
 			</View>
 		);
 	}
 }
-
-export default SurveyStart;

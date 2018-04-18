@@ -7,6 +7,7 @@ export const StudySchema = {
 	properties: {
 		name: 'string',
 		date: 'date',
+		description: 'string',
 		participants: {type: 'list', objectType: 'Participant'}
 	}
 };

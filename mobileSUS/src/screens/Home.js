@@ -11,7 +11,7 @@ import BoxScrollView from  '../components/BoxScrollView';
 import TouchableBox from '../components/TouchableBox';
 
 const styles = StyleSheet.create({
-	home: {
+	main: {
 		flex: 1,
 		alignItems: 'center',
 		flexDirection: 'column',
@@ -20,7 +20,8 @@ const styles = StyleSheet.create({
 	start: {
 		flex: 1,
 		alignItems: 'center',
-		justifyContent: 'center'
+		justifyContent: 'flex-end',
+		marginBottom: 15,
 	},
 	existing: {
 		flex: 3,
@@ -33,30 +34,32 @@ const styles = StyleSheet.create({
 	nonexisting: {
 		flex: 3,
 		alignItems: 'center',
-		justifyContent: 'center'
+		justifyContent: 'center',
 	},
-	existingText: {
-		marginBottom: 5
+	text: {
+		fontSize: 12, 
+		color: '#727272',
 	},
 });
 
 class Home extends Component {
 
-	handleNewStudy = () => {
+	_handleNewStudy = () => {
 		this.props.navigator.push({
 			screen: 'mobilesus.NewStudy',
-			title: 'Create a New Study',
-			backButtonHidden: true
+			title: 'Add a New Product',
+			backButtonTitle: ""
 		});
 	}
 
-	handleOpenStudy = (study) => {
+	_handleOpenStudy = (study) => {
 		this.props.navigator.push({
 			screen: 'mobilesus.Study',
 			title: study.name,
-			backButtonTitle: "Back",
+			backButtonTitle: "",
 			passProps: {
-				studyName: study.name
+				studyName: study.name,
+				studyDescription: study.description
 			}
 		});
 	}
@@ -67,12 +70,12 @@ class Home extends Component {
 		return studies.map((study, i) => {
 			return (
 				<TouchableBox 
-					key = {i}
-					onPress = { () => this.handleOpenStudy(study) }
-					backgroundColor = {{backgroundColor: "white"}}
-					text = {study.name}
-					textColor = {{color: "#000"}}
-					size = {{width: 300, height: 80}}
+					key = { i }
+					onPress = { () => this._handleOpenStudy(study) }
+					disabled = { false }
+					style = { { width: 300, height: 80, backgroundColor: "#E6F2FB", borderRadius: 10 } }
+					textStyle = { { color: "black" } }
+					text = { study.name }
 				/>
 			);
 		});
@@ -84,25 +87,27 @@ class Home extends Component {
 
 		var existing;
 		if (studies.length != 0) {
-			existing = 	<BoxScrollView outerStyle = {styles.existing} text = "Existing Studies">
-							{this.renderStudies()}
+			existing = 	<BoxScrollView 	style = { styles.existing }
+										titleStyle = {[ styles.text, { margin: 5 } ]}
+										title = "Existing Products">
+								{ this.renderStudies() }
 						</BoxScrollView>
 		} else {
-			existing = 	<View style = {styles.nonexisting}> 
-							<Text> No Existing Studies </Text> 
+			existing = 	<View style = { styles.nonexisting }> 
+							<Text style = { styles.text }> No Existing Studies </Text> 
 						</View>
 		}
 
 		return (
-				<View style = {[styles.home, {backgroundColor: "#F2F2F2"}]}>
-					{existing}
-					<View style = {styles.start}>
+				<View style = {[ styles.main, { backgroundColor: "white" } ]}>
+					{ existing }
+					<View style = { styles.start }>
 						<TouchableBox
-							onPress = {this.handleNewStudy}
-							text = "Start a New Study"
-							backgroundColor = {{backgroundColor: "blue"}}
-							textColor = {{color: "white"}}
-							size = {{width: 300, height: 80}}
+							onPress = { this._handleNewStudy }
+							disabled = { false }
+							style = { { width: 300, height: 80, backgroundColor: "#69A6D7" } }
+							textStyle = { { color: "white" } }
+							text = "Add a New Product"
 						/>
 					</View>
 					

@@ -10,14 +10,14 @@ class AppService {
 
 	constructor () {}
 
-	addStudy(studyName) {
+	addStudy(studyName, studyDescription) {
 		// Check for duplicate
 		let study = this.getStudy(studyName);
 		if (typeof study != 'undefined') return -1;
 		if (studyName === "") return -2;
 		let today = new Date();
 		realm.write(() => {
-			realm.create('Study', {name: studyName, date: today, participants: []});
+			realm.create('Study', {name: studyName, description: studyDescription, date: today, participants: []});
 		});
 		return 0;
 	}
@@ -45,27 +45,34 @@ class AppService {
 		return realm.objects('Study');
 	}
 
-	addParticipant(studyName, participantID) {
-		let p = realm.objectForPrimaryKey('Participant', studyName + "." + participantID);
+	addParticipant(studyName, participantName, participantNotes) {
+		let p = realm.objectForPrimaryKey('Participant', studyName + "." + participantName);
 		if (typeof p != 'undefined') return -1;
-		if (participantID === "") return -2;
+		if (participantName === "") return -2;
 
 		var study = this.getStudy(studyName);
 		let today = new Date();
 		realm.write(() => {
-			const participant = realm.create('Participant', {id: studyName + "." + participantID, date: today, notes: "", survey: []});
+			const participant = realm.create('Participant', {id: studyName + "." + participantName, date: today, notes: participantNotes, survey: []});
 			study.participants.push(participant);
 		});
 
 		return 0;
 	}
 
-	addScore(participantID, qid, value) {
-		let p = realm.objectForPrimaryKey('Participant', participantID);
-		console.log(participantID);
+	checkParticipant(studyName, participantName) {
+		let p = realm.objectForPrimaryKey('Participant', studyName + "." + participantName);
+		if (typeof p != 'undefined') return -1;
+		if (participantName === "") return -2;
+		return 0;
+	}
+
+	addScore(studyName, participantName, qid, value) {
+		let p = realm.objectForPrimaryKey('Participant', studyName + "." + participantName);
+		console.log(participantName);
 		if (typeof p === 'undefined') return -1;
 		realm.write(() => {
-			const score = realm.create('Score', {id: participantID + "." + qid, value: value}, true);
+			const score = realm.create('Score', {id: participantName + "." + qid, value: value}, true);
 			p.survey.push(score);
 		});
 	}
@@ -74,7 +81,7 @@ class AppService {
 		return name.substring(name.indexOf(".") + 1, name.length);
 	}
 
-	getScore(participantID) {
+	getScoreFromID(participantID) {
 		let p = realm.objectForPrimaryKey('Participant', participantID);
 		var i = 1;
 		var s = 0;
@@ -90,49 +97,68 @@ class AppService {
 		return s * 2.5;
 	}
 
+	getScore(rawData) {
+		var i = 1;
+		var s = 0;
+		for (var j = 0; j < rawData.length; j++) {
+			if (i % 2 == 0) {
+				s += 5 - rawData[j];
+			} else {
+				s += rawData[j] - 1;
+			}
+			i += 1;
+		}
+
+		return s * 2.5;
+	}
+
 	getStat(studyName) {
 		let study = this.getStudy(studyName);
 		if (typeof study != 'undefined') {
-			var sysmin = 5;
+			var sysmin = 101;
 			var sysmax = 0;
 			var total = 0;
 			var count = 0;
 			for (var participant of study.participants) {
-				var score = this.getScore(participant.id);
+				var score = this.getScoreFromID(participant.id);
 				if (score > sysmax) {
 					sysmax = score;
-				} else if (score < sysmin) {
+				} 
+				if (score < sysmin) {
 					sysmin = score;
 				}
 				total += score;
 				count += 1
 			}
+			if (count == 0) {
+				return {size: 0, mean: 0, std: 0, min: 0, max: 0}
+			}
 			var sysmean = total / count;
 			total = 0
 			for (var participant of study.participants) {
-				var score = this.getScore(participant.id);
+				var score = this.getScoreFromID(participant.id);
 				total += Math.pow(score - sysmean, 2);
 			}
 			var sysstd = Math.sqrt(total / count);
-			return {mean: sysmean, std: sysstd, min: sysmin, max: sysmax}
+			return {size: count, mean: sysmean, std: sysstd, min: sysmin, max: sysmax}
 		}
 	}
 
-	exportStudy(studyName) {
-		// Check out MailGun -- service for sending emails
+	exportStudy(studyName, emailAddr) {
 		var study = this.getStudy(studyName);
-		var data = 'Study Name\tParticipant ID\tSUS 1\tSUS 2\tSUS 3\tSUS 4\tSUS 5\tSUS 6\tSUS 7\tSUS 8\tSUS 9\tSUS Score\n'
+		var data = 'Study Name\tParticipant ID\tNotes\tSUS 1\tSUS 2\tSUS 3\tSUS 4\tSUS 5\tSUS 6\tSUS 7\tSUS 8\tSUS 9\tSUS 10\tSUS Score\n'
 		if (typeof study != 'undefined') {
 			for (var participant of study.participants) {
 				data += study.name + '\t' + 
-						this.parseAppendedName(participant.id) + '\t'
+						this.parseAppendedName(participant.id) + '\t' +
+						participant.notes + '\t'
 				for (var score of participant.survey) {
 					data += score.value + '\t'
 				}
-				data += this.getScore(participant.id) + '\n'
+				data += this.getScoreFromID(participant.id) + '\n'
 				console.log(data);
 			}
-			Exporter.writeAndEmailCSV(data, studyName)
+			Exporter.writeAndEmailCSV(data, studyName, emailAddr)
 		}
 	}
 }

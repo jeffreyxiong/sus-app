@@ -30,9 +30,9 @@ public class MainApplication extends NavigationApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
-            new RandomBytesPackage(),
-            new RNFSPackage(),
-	      new RealmReactPackage()
+          new RandomBytesPackage(),
+          new RealmReactPackage(),
+          new RNFSPackage()
       );
     }
   };
@@ -46,7 +46,7 @@ public class MainApplication extends NavigationApplication {
   @Override
   public List<ReactPackage> createAdditionalReactPackages() {
       return Arrays.<ReactPackage>asList(
-              new RealmReactPackage()
+          new RealmReactPackage()
       );
   }
 

@@ -1,7 +1,8 @@
 
 import React, { Component } from 'react';
-import { View, Text, TextInput, Button, Alert, StyleSheet } from 'react-native';
+import { View, Text, TextInput, Alert, Keyboard, StyleSheet } from 'react-native';
 import AppService from '../AppService';
+import TouchableBox from '../components/TouchableBox';
 
 const styles = StyleSheet.create({
 	main: {
@@ -9,26 +10,40 @@ const styles = StyleSheet.create({
 		flexDirection: 'column',
 		justifyContent: 'space-around'
 	},
+	form: {
+		flex: 3
+	},
 	textField: {
-		marginTop: 15,
-		marginLeft: 15,
-		marginRight: 15,
-		height: 50, 
-		borderColor: 'gray', 
-		borderBottomWidth: 1
+		margin: 15,
+		borderColor: '#979797', 
+		borderWidth: 1,
+		borderRadius: 10,
+		padding: 15,
+		fontSize: 14
+	},
+	multilineTextField: {
+		height: 150,
+		paddingTop: 15,
+	},
+	prompt: {
+		margin: 15,
+		fontSize: 16,
+		fontWeight: '600'
 	},
 	question: {
 		marginTop: 15,
 		marginLeft: 15,
-		fontSize: 18
+		marginRight: 15,
+		fontSize: 16
 	},
-	form: {
-		flex: 1
+	section: {
+		marginTop: 10
 	},
 	buttons: {
 		flex: 1,
-		flexDirection: 'row',
-		justifyContent: 'space-around'
+		alignItems: 'center',
+		justifyContent: 'flex-end',
+		marginBottom: 15,
 	}
 });
 
@@ -36,24 +51,24 @@ class NewStudy extends Component {
 
 	constructor(props) {
 		super(props);
-		this.state = {text: '', study: undefined};
+		this.state = { nameText: '', descriptionText: '', study: undefined };
 	}
 
 	_handleContinue = () => {
 		// Ask user to try again if study name exists
-		var res = AppService.addStudy(this.state.text);
+		var res = AppService.addStudy(this.state.nameText, this.state.descriptionText);
 		this.setState({study: res});
 		if (res == -1) {
 			Alert.alert(
 				'Error: Duplicate Entry', 
-				'A study with this name already exists.', 
+				'A product with this name already exists.', 
 				[
 					{text: "Ok, I'll rename.", onPress: () => {} }
 				]);
 		} else if (res == -2) {
 			Alert.alert(
 				'Error: Invalid Entry', 
-				'A study must have a non-empty name.', 
+				'A product must have a non-empty name.', 
 				[
 					{text: "Ok, I'll rename.", onPress: () => {} }
 				]);
@@ -74,34 +89,51 @@ class NewStudy extends Component {
 	}
 
 	_handleChange = (text) => {
-		this.setState({text});
+		this.setState(text);
 	}
 
 	clearStudy = (name) => {
 		AppService.removeStudy(name);
 	}
 
-
 	render () {
 		return (
-				<View style = {styles.main}>
-					<View style = {styles.form}>
-						<Text style = {styles.question}>Enter the name of the study:</Text>
-						<TextInput 
-							style = {styles.textField}
-							onChangeText = {(text) => this._handleChange(text)}
-							value = {this.state.text}
-							placeholder = "Name"
-						/>
+				<View style = { styles.main }>
+					<View style = { styles.form }>
+						<Text style = { styles.prompt }>This is what you are collecting data for.</Text>
+						<View style = { styles.section }>
+							<Text style = { styles.question }>Name of the Product:</Text>
+							<TextInput 
+								style = { styles.textField }
+								onChangeText = { (nameText) => this._handleChange({ nameText }) }
+								value = { this.state.nameText }
+								returnKeyLabel = { "done" }
+								returnKeyType = { "done" }
+								placeholder = "Ex: iPhone X Notch"
+							/>
+						</View>
+						<View style = { styles.section }>
+							<Text style = { styles.question }>Description:</Text>
+							<TextInput 
+								style = {[ styles.textField, styles.multilineTextField ]}
+								onChangeText = { (descriptionText) => this._handleChange({ descriptionText }) }
+								value = { this.state.descriptionText }
+								returnKeyLabel = { "done" }
+								returnKeyType = { "done" }
+								blurOnSubmit = { true }
+								placeholder = "Ex: Testing on college students in portrait mode"
+								multiline = { true }
+								numberOfLines = { 4 }
+							/>
+						</View>
 					</View>
-					<View style = {styles.buttons}>
-						<Button 
-							onPress = {this._handleBack}
-							title = "Back"
-						/>
-						<Button
-							onPress = {this._handleContinue}
-							title = "Continue"
+					<View style = { styles.buttons }>
+						<TouchableBox
+							onPress = { this._handleContinue }
+							disabled = { false }
+							style = { { width: 300, height: 80, backgroundColor: "#69A6D7" } }
+							textStyle = { {  color: "white" } }
+							text = "Continue"
 						/>
 					</View>
 				</View>

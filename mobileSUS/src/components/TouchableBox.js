@@ -1,37 +1,48 @@
 import React, { Component } from 'react';
-import { Platform, View, Text, StyleSheet, Button, TouchableOpacity, Dimensions } from 'react-native';
+import { Platform, View, Text, StyleSheet, Button, TouchableOpacity, Dimensions, TouchableNativeFeedback } from 'react-native';
 
+// default styles
 const styles = StyleSheet.create({
-	view: {
+	inner: {
 		flex: 0,
 		alignSelf: 'flex-start',
 	    alignItems: 'center',
 	    justifyContent: 'center',
-	    marginTop: 5,
-	    marginBottom: 5
+	    margin: 5
 	},
 	text: {
-	    fontSize: 18,
+	    fontSize: 16,
 	    fontWeight: '300',
 	}
 });
 
-class TouchableBox extends Component {
+export default class TouchableBox extends Component {
 
 	render() {
-		const { onPress, backgroundColor, text, textColor, size } = this.props;
-		// TouchableNativeFeedback for Android
-		return (
-			<View>
-				<TouchableOpacity onPress = { onPress }>
-					<View style = { [styles.view, backgroundColor, {width: 300, height: 80}] }>
-						<Text style = { [styles.text, textColor] }> { text } </Text>
-					</View>
-				</TouchableOpacity>
-			</View>
 
-		);
+		const { onPress, disabled, style, textStyle, text } = this.props;
+
+		if (Platform.OS === "ios") {
+			return (
+				<View>
+					<TouchableOpacity onPress = { onPress } disabled = { disabled } >
+						<View style = { [ styles.inner, style ] }>
+							<Text style = { [ styles.text, textStyle ] }>{ text }</Text>
+						</View>
+					</TouchableOpacity>
+				</View>
+	
+			);
+		} else {
+			return (
+				<View>
+					<TouchableNativeFeedback onPress = { onPress }>
+						<View style = { [ styles.inner, style ] }>
+							<Text style = { [ styles.text, textStyle ] }>{ text }</Text>
+						</View>
+					</TouchableNativeFeedback>
+				</View>
+			)
+		}
 	}
 }
-
-export default TouchableBox;

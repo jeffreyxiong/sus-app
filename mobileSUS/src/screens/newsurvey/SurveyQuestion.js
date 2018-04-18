@@ -1,91 +1,137 @@
 import React, { Component } from 'react';
-import { View, Text, TextInput, Button, Alert, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet } from 'react-native';
 import AppService from '../../AppService';
+import TouchableBox from '../../components/TouchableBox';
 import RadioForm, {RadioButton, RadioButtonInput, RadioButtonLabel} from 'react-native-simple-radio-button';
 
 const styles = StyleSheet.create({
-	instructions: {
+	main: {
 		flex: 1,
-		marginTop: 15,
-		marginLeft: 15,
-		marginBottom: 30
+		flexDirection: 'column',
+		justifyContent: 'space-around'
+	},
+	prompt: {
+		flex: 1,
+		margin: 15,
+		fontSize: 16,
+		fontWeight: '600',
+		height: 40,
 	},
 	form: {
-		flex: 1,
-		alignItems: 'center',
-		marginTop: 30,
-		marginBottom: 30
+		flex: 3,
+		flexDirection: 'column',
+		margin: 15,
 	},
 	buttons: {
 		flex: 1,
+		alignItems: 'center',
+		justifyContent: 'flex-end',
+		marginBottom: 15,
+	},
+	hbuttons: {
+		flex: 1,
 		flexDirection: 'row',
-		justifyContent: 'center',
-		marginTop: 15
+        justifyContent: 'space-between',
+        alignItems: 'flex-end',
 	},
 	home: {
 		flex: 1,
 		flexDirection: 'column',
-		justifyContent: 'space-between'
+		justifyContent: 'space-between',
 	},
 	text: {
-		fontSize: 18
+		fontSize: 18,
+	},
+	label: {
+		flex: 1,
+		height: 50,
+		flexDirection: 'row',
+		justifyContent: 'space-between',
+		marginLeft: 15,
+		marginRight: 15,
+		marginBottom: 15,
 	}
 });
 
-let questions = ["I think that I would like to use this system frequently.",
-				 "I found the system unnecessarily complex.",
-				 "I thought the system was easy to use.",
-				 "I think that I would need the support of a technical person to be able to use this system.",
-				 "I found the various functions in this system were well integrated.",
-				 "I thought there was too much inconsistency in this system.",
-				 "I would imagine that most people would learn to use this system very quickly.",
-				 "I found the system very cumbersome to use.",
-				 "I felt very confident using the system.",
-				 "I needed to learn a lot of things before I could get going with this system."];
-var radio_props = [
-  {label: '1', value: 1 },
-  {label: '2', value: 2 },
-  {label: '3', value: 3 },
-  {label: '4', value: 4 },
-  {label: '5', value: 5 },
+let questions = [ "I think that I would like to use this system frequently.",
+				  "I found the system unnecessarily complex.",
+				  "I thought the system was easy to use.",
+				  "I think that I would need the support of a technical person to be able to use this system.",
+				  "I found the various functions in this system were well integrated.",
+				  "I thought there was too much inconsistency in this system.",
+				  "I would imagine that most people would learn to use this system very quickly.",
+				  "I found the system very awkward to use.",
+				  "I felt very confident using the system.",
+				  "I needed to learn a lot of things before I could get going with this system."
+				];
+
+let radio_props = [
+  	{label: '1', value: 1 },
+  	{label: '2', value: 2 },
+  	{label: '3', value: 3 },
+  	{label: '4', value: 4 },
+  	{label: '5', value: 5 },
 ];
 
-class SurveyQuestion extends Component {
+export default class Survey extends Component {
+
 
 	constructor(props) {
 		super(props);
-		this.state = {qid: 0, value: 1};
+		this.state = { qid: 0, value: 0 };
+		this.response = Array.apply(null, Array(10)).map(Number.prototype.valueOf,0);
 	}
 
 	_handleNext = () => {
 		console.log(this.state.qid, this.state.value);
-		AppService.addScore(this.props.participantID, this.state.qid, this.state.value);
+		this.response[this.state.qid] = this.state.value;
 
 		this.setState(prev => {
-			return {qid: prev.qid + 1};
+			return { qid: prev.qid + 1, value : 0 };
 		});
 	}
 
 	_handlePrev = () => {
 		this.setState(prev => {
-			return {qid: prev.qid - 1};
+			return { qid: prev.qid - 1, value : 0 };
 		});
 	}
 
 	_handleFinish = () => {
-		this.props.navigator.resetTo({
-			screen: 'mobilesus.Home',
-			title: 'SUS App',
-			animated: true
+		this.response[this.state.qid] = this.state.value;
+		this.props.navigator.push({
+			screen: 'mobilesus.SurveyFinish',
+			title: 'SUS Survey',
+			animated: true,
+			passProps: {
+				participantName: this.props.participantName,
+				studyName: this.props.studyName,
+				response: this.response,
+				notes: this.props.notes
+			},
+			backButtonHidden: true
 		});
 	}
 
 	renderPrev() {
 		if (this.state.qid > 0) {
 			return (
-				<Button 
-					onPress = {() => this._handlePrev()}
-					title = "Prev"
+				<TouchableBox
+					onPress = { this._handlePrev }
+					disabled = { false }
+					style = { { width: 140, height: 80, backgroundColor: "#69A6D7" } }
+					textStyle = { { color: "white" } }
+					text = "Back"
+				/>
+			);
+		} else {
+			return (
+				<TouchableBox
+					onPress = { () => {} }
+					disabled = { true }
+					style = { { width: 140, height: 80, backgroundColor: "#69A6D7", opacity: 0.5 } }
+					textStyle = { { color: "white" } }
+					text = "Back"
 				/>
 			);
 		}
@@ -94,11 +140,25 @@ class SurveyQuestion extends Component {
 
 	renderNext() {
 		// Save survey results
-		if (this.state.qid < questions.length) {
+		if (this.state.qid < questions.length - 1) {
+			if (this.state.value === 0) {
+				return (
+					<TouchableBox
+						onPress = { () => {} }
+						disabled = { true }
+						style = { { width: 140, height: 80, backgroundColor: "#69A6D7", opacity: 0.5 } }
+						textStyle = { { color: "white" } }
+						text = "Next"
+					/>
+				);
+			}
 			return (
-				<Button 
-					onPress = {() => this._handleNext()}
-					title = "Next"
+				<TouchableBox
+					onPress = { this._handleNext }
+					disabled = { false }
+					style = { { width: 140, height: 80, backgroundColor: "#69A6D7" } }
+					textStyle = { { color: "white" } }
+					text = "Next"
 				/>
 			);
 		}
@@ -106,40 +166,85 @@ class SurveyQuestion extends Component {
 	}
 
 	renderFinish() {
-		if (this.state.qid === questions.length) {
+		if (this.state.qid === questions.length - 1) {
+			if (this.state.value === 0) {
+				return (
+					<TouchableBox
+						onPress = { () => {} }
+						disabled = { true }
+						style = { { width: 140, height: 80, backgroundColor: "#69A6D7", opacity: 0.5 } }
+						textStyle = { { color: "white" } }
+						text = "Finish"
+					/>
+				);
+			}
 			return (
-				<Button 
-					onPress = {() => this._handleFinish()}
-					title = "Finish"
+				<TouchableBox
+					onPress = { this._handleFinish }
+					disabled = { false }
+					style = { {width: 140, height: 80, backgroundColor: "#69A6D7"} }
+					textStyle = { {color: "white"} }
+					text = "Finish"
 				/>
 			);
 		}
 		return null;
 	}
 
-	render() {
-		const showButtons = this.state.qid < questions.length
-		let form = null
-		if (showButtons) {
-			form = <RadioForm
-			        	formHorizontal={true}
-			        	labelHorizontal={false}
-			          	radio_props={radio_props}
-			          	initial={0}
-			          	onPress={(value) => {this.setState({value:value})}}
-			        />
+	renderForm() {
+		if (this.state.qid < questions.length) {
+			return (
+				<View>
+					<RadioForm formHorizontal = { true } animation = { true } initial = { -1 } >
+						{ radio_props.map((obj, i) => {
+							return (
+								<RadioButton labelHorizontal={false} key={i} >
+									<RadioButtonInput
+										obj = { obj }
+										index = { i }
+										isSelected = { this.state.value === obj.value }
+										onPress = { (value) => { this.setState({ value : value }) } }
+										buttonInnerColor = { '#69A6D7' }
+										buttonOuterColor = { '#69A6D7' }
+										buttonSize = { 30 }
+										buttonWrapStyle = { { marginLeft: 5, marginRight: 12 } }
+									/>
+									<RadioButtonLabel
+										obj = { obj }
+										index = { i }
+										labelStyle = { { fontWeight: 'bold', color: '#727272', marginTop: 5, marginRight: 7 } }
+										onPress = { (value) => { this.setState({ value : value }) } }
+									/>
+								</RadioButton>
+							);
+						}) }
+					</RadioForm>
+				</View>
+			);
 		}
+	}
+
+
+	render() {
 		return (
-			<View>
-				<View style = {styles.home}>
-					<View style = {styles.instructions}>
-						<Text style={styles.text}> {questions[this.state.qid]} </Text>
+			<View style = { styles.main }>
+				<View style = { styles.form }>
+					<Text style = { styles.prompt }>{ questions[this.state.qid] }</Text>
+					<View style = { { flex: 4 } }>
+						<View style = { styles.label }>
+							<Text style = { { width: 80, fontSize: 12, color: '#727272', textAlign: 'left' } }>Strongly Disagree</Text>
+							<Text style = { { width: 80, fontSize: 12, color: '#727272', textAlign: 'right' } }>Strongly Agree</Text>
+						</View>
+						<View style = { { flex: 4, alignItems: 'center', } }>
+							{ this.renderForm() }
+							<Text style = { { fontSize: 12, color: '#727272', marginTop: 60 } }>{ this.state.qid + 1 } / 10</Text>
+						</View>
 					</View>
-					<View style = {styles.form}>
-				        { form }
-				    </View>
-				    <View style = {styles.buttons}>
-				   		{ this.renderPrev() }
+					
+				</View>
+				<View style = { styles.buttons }>
+					<View style = { styles.hbuttons }>
+						{ this.renderPrev() }
 						{ this.renderNext() }
 						{ this.renderFinish() }
 					</View>
@@ -148,5 +253,3 @@ class SurveyQuestion extends Component {
 		);
 	}
 }
-
-export default SurveyQuestion;
