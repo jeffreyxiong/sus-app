@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
-import { View, Text, TextInput, StyleSheet, AsyncStorage, Alert } from 'react-native';
+import { View, Text, TextInput, StyleSheet, Alert } from 'react-native';
 import AppService from '../AppService';
 import TouchableBox from '../components/TouchableBox';
-import RadioForm, {RadioButton, RadioButtonInput, RadioButtonLabel} from 'react-native-simple-radio-button';
+import { CheckBox } from 'react-native-elements';
 
 const styles = StyleSheet.create({
 	main: {
@@ -12,6 +12,9 @@ const styles = StyleSheet.create({
 	},
 	form: {
 		flex: 3
+	},
+	checkbox: {
+		margin: 15,
 	},
 	textField: {
 		margin: 15,
@@ -48,22 +51,18 @@ export default class Email extends Component {
     constructor(props) {
 		super(props);
 		text = ''
-		try {
-			const value = await AsyncStorage.getItem('email');
-			if (value !== null){
-			  	// We have data!!
-			  	text = value
-			} else {
-				console.log('No prior email entered')
-			}
-		} catch (error) {
-			console.log('Failed to retrieve from AsyncStorage')
+		check = false
+		email = AppService.getEmail();
+		if (email != null) {
+			text = email.email;
+			check = true;
 		}
-		this.state = { emailText: text };
-    }
+		this.state = { emailText: text, checked: check };
+		
+	}
 	
 	_handleContinue = () => {
-		if(this.emailText === '') {
+		if(this.state.emailText === '') {
 			Alert.alert(
 				'Error: No Email Specified', 
 				'Please specify an email.', 
@@ -71,26 +70,41 @@ export default class Email extends Component {
 					{text: "Ok, I'll enter my email.", onPress: () => {} }
 				]);
 		} else {
-			AppService.exportStudy(this.props.studyName, this.emailText);
+			if (this.state.checked) {
+				console.log('checked');
+				AppService.addEmail(this.state.emailText);
+			} else {
+				AppService.removeEmail();
+			}
+
+			AppService.exportStudy(this.props.studyName, this.state.emailText, this.callback);
 
 			this.props.navigator.resetTo({
 				screen: 'mobilesus.Home',
 				title: 'SUS App',
 				animated: true
 			});
-		}
-		
+
+		}		
 	}
 
 	_handleChange = (text) => {
 		this.setState(text);
 	}
 
+	onClose(data) {
+		// data = {type, title, message, action}
+		// action means how the alert was closed.
+		// returns: automatic, programmatic, tap, pan or cancel
+	}
+
+
+
     render() {
 		return (
 			<View style = { styles.main }>
 				<View style = { styles.form }>
-					<Text style = { styles.prompt }>Data for this file will be in emailed as a tab delimited file. </Text>
+					<Text style = { styles.prompt }>Data for this file will be emailed as a tab delimited file.</Text>
 					<View style = { styles.section }>
 						<Text style = { styles.question }>Email Address:</Text>
 						<TextInput 
@@ -99,7 +113,14 @@ export default class Email extends Component {
 							value = { this.state.emailText }
 							returnKeyLabel = { "done" }
 							returnKeyType = { "done" }
-							placeholder = "Ex: pkortum@rice.edu"
+							placeholder = "Ex: phil@usableproducts.com"
+						/>
+						<Text style = { styles.question }>Do you want to remember this email?</Text>
+						<CheckBox
+							title='Yes'
+							style={ styles.checkbox }
+							checked={ this.state.checked }
+							onPress={ () => this.setState({ checked: !this.state.checked }) }
 						/>
 					</View>
 					<View style = { styles.buttons }>

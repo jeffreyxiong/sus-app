@@ -9,6 +9,7 @@ import { Platform, View, Text, StyleSheet, Button, ScrollView } from 'react-nati
 import AppService from '../AppService';
 import BoxScrollView from  '../components/BoxScrollView';
 import TouchableBox from '../components/TouchableBox';
+import DropdownAlert from 'react-native-dropdownalert';
 
 const styles = StyleSheet.create({
 	main: {
@@ -44,6 +45,47 @@ const styles = StyleSheet.create({
 
 class Home extends Component {
 
+	static navigatorButtons = {
+		rightButtons: [
+			{
+				title: 'Info',
+				id: 'info',
+				buttonFontSize: 14,
+				buttonFontWeight: '600', 
+			},
+		]
+	}
+
+	constructor(props) {
+		super(props);
+		this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent.bind(this));
+	}
+
+	emailCallback = (success) => {
+		if (success) {
+			this.dropdown.alertWithType('success', 'Email Sent!', 'Your email has been sent.');
+		} else {
+			this.dropdown.alertWithType('error', 'Error Sending Email!', 'There was a problem sending your email. Try again later.');
+		}
+		
+	}
+
+	onNavigatorEvent(event) {
+		if (event.type == 'NavBarButtonPress') { // this is the event type for button presses
+		  	if (event.id == 'info') { // this is the same id field from the static navigatorButtons definition
+				this._handleInfo();
+		  	}
+		}
+	}
+
+	_handleInfo = () => {
+		this.props.navigator.push({
+			screen: 'mobilesus.Info',
+			title: 'Info',
+			backButtonTitle: "",
+		})
+	}
+
 	_handleNewStudy = () => {
 		this.props.navigator.push({
 			screen: 'mobilesus.NewStudy',
@@ -53,13 +95,15 @@ class Home extends Component {
 	}
 
 	_handleOpenStudy = (study) => {
+		console.log(study.description);
 		this.props.navigator.push({
 			screen: 'mobilesus.Study',
 			title: study.name,
 			backButtonTitle: "",
 			passProps: {
 				studyName: study.name,
-				studyDescription: study.description
+				studyDescription: study.description,
+				callback: this.emailCallback,
 			}
 		});
 	}
@@ -110,7 +154,9 @@ class Home extends Component {
 							text = "Add a New Product"
 						/>
 					</View>
-					
+					<View> 
+						<DropdownAlert ref={ref => this.dropdown = ref} onClose={data => this.onClose(data)} />
+					</View>
 				</View>
 
 			);

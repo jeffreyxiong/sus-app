@@ -24,12 +24,13 @@ class Study extends Component {
 	static navigatorButtons = {
 		rightButtons: [
 			{
-				icon: require('../../assets/delete.png'),
+				// todo: change systemItem for Android
 				disableIconTint: true,
 				id: 'delete',
+				systemItem: 'trash',
 			}
 		]
-	  };
+	};
 
 	constructor(props) {
 		super(props);
@@ -64,7 +65,8 @@ class Study extends Component {
 			animate: true,
 			backButtonTitle: "",
 			passProps: {
-				studyName: this.props.studyName
+				studyName: this.props.studyName,
+				callback: this.callback,
 			}
 		})
 	}
@@ -103,13 +105,6 @@ class Study extends Component {
 					min = { dataSet.min }
 				/>
 				<View style={ styles.bottom }>
-					<TouchableBox
-						onPress = { this._handleEmail }
-						disabled = { false }
-						style = { { width: 300, height: 80, backgroundColor: "#69A6D7" } }
-						textStyle = { { color: "white" } }
-						text = "Email Product Data"
-					/>
 					<TouchableBox 
 						onPress = { this._handleAddParticipant }
 						disabled = { false }
@@ -117,6 +112,14 @@ class Study extends Component {
 						textStyle = { { color: "white" } }
 						text = "Add a New Participant"
 					/>
+					<TouchableBox
+						onPress = { this._handleEmail }
+						disabled = { false }
+						style = { { width: 300, height: 80, backgroundColor: "#69A6D7" } }
+						textStyle = { { color: "white" } }
+						text = "Email Product Data"
+					/>
+					
 				</View>
 			</View>
 		);

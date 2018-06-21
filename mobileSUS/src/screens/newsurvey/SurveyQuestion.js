@@ -13,7 +13,7 @@ const styles = StyleSheet.create({
 	prompt: {
 		flex: 1,
 		margin: 15,
-		fontSize: 16,
+		fontSize: 20,
 		fontWeight: '600',
 		height: 40,
 	},
@@ -32,7 +32,7 @@ const styles = StyleSheet.create({
 		flex: 1,
 		flexDirection: 'row',
         justifyContent: 'space-between',
-        alignItems: 'flex-end',
+		alignItems: 'flex-end',
 	},
 	home: {
 		flex: 1,
@@ -40,7 +40,7 @@ const styles = StyleSheet.create({
 		justifyContent: 'space-between',
 	},
 	text: {
-		fontSize: 18,
+		fontSize: 10,
 	},
 	label: {
 		flex: 1,
@@ -53,17 +53,7 @@ const styles = StyleSheet.create({
 	}
 });
 
-let questions = [ "I think that I would like to use this system frequently.",
-				  "I found the system unnecessarily complex.",
-				  "I thought the system was easy to use.",
-				  "I think that I would need the support of a technical person to be able to use this system.",
-				  "I found the various functions in this system were well integrated.",
-				  "I thought there was too much inconsistency in this system.",
-				  "I would imagine that most people would learn to use this system very quickly.",
-				  "I found the system very awkward to use.",
-				  "I felt very confident using the system.",
-				  "I needed to learn a lot of things before I could get going with this system."
-				];
+
 
 let radio_props = [
   	{label: '1', value: 1 },
@@ -80,6 +70,21 @@ export default class Survey extends Component {
 		super(props);
 		this.state = { qid: 0, value: 0 };
 		this.response = Array.apply(null, Array(10)).map(Number.prototype.valueOf,0);
+
+		let study = AppService.getStudy(this.props.studyName);
+		console.log(study);
+		let systemName = study.system;
+		this.questions = [ "I think that I would like to use this " + systemName + " frequently.",
+						   "I found the " + systemName + " unnecessarily complex.",
+						   "I thought the " + systemName + " was easy to use.",
+						   "I think that I would need the support of a technical person to be able to use this " + systemName + ".",
+						   "I found the various functions in this " + systemName + " were well integrated.",
+						   "I thought there was too much inconsistency in this " + systemName + ".",
+						   "I would imagine that most people would learn to use this " + systemName + " very quickly.",
+						   "I found the " + systemName + " very awkward to use.",
+						   "I felt very confident using the " + systemName + ".",
+						   "I needed to learn a lot of things before I could get going with this " + systemName + "."
+						 ];
 	}
 
 	_handleNext = () => {
@@ -140,7 +145,7 @@ export default class Survey extends Component {
 
 	renderNext() {
 		// Save survey results
-		if (this.state.qid < questions.length - 1) {
+		if (this.state.qid < this.questions.length - 1) {
 			if (this.state.value === 0) {
 				return (
 					<TouchableBox
@@ -166,7 +171,7 @@ export default class Survey extends Component {
 	}
 
 	renderFinish() {
-		if (this.state.qid === questions.length - 1) {
+		if (this.state.qid === this.questions.length - 1) {
 			if (this.state.value === 0) {
 				return (
 					<TouchableBox
@@ -192,7 +197,7 @@ export default class Survey extends Component {
 	}
 
 	renderForm() {
-		if (this.state.qid < questions.length) {
+		if (this.state.qid < this.questions.length) {
 			return (
 				<View>
 					<RadioForm formHorizontal = { true } animation = { true } initial = { -1 } >
@@ -206,8 +211,8 @@ export default class Survey extends Component {
 										onPress = { (value) => { this.setState({ value : value }) } }
 										buttonInnerColor = { '#69A6D7' }
 										buttonOuterColor = { '#69A6D7' }
-										buttonSize = { 30 }
-										buttonWrapStyle = { { marginLeft: 5, marginRight: 12 } }
+										buttonSize = { 35 }
+										buttonWrapStyle = { { marginLeft: 3, marginRight: 12 } }
 									/>
 									<RadioButtonLabel
 										obj = { obj }
@@ -229,11 +234,11 @@ export default class Survey extends Component {
 		return (
 			<View style = { styles.main }>
 				<View style = { styles.form }>
-					<Text style = { styles.prompt }>{ questions[this.state.qid] }</Text>
+					<Text style = { styles.prompt }>{ this.questions[this.state.qid] }</Text>
 					<View style = { { flex: 4 } }>
 						<View style = { styles.label }>
-							<Text style = { { width: 80, fontSize: 12, color: '#727272', textAlign: 'left' } }>Strongly Disagree</Text>
-							<Text style = { { width: 80, fontSize: 12, color: '#727272', textAlign: 'right' } }>Strongly Agree</Text>
+							<Text style = { { width: 80, fontSize: 16, color: '#727272', textAlign: 'left' } }>Strongly Disagree</Text>
+							<Text style = { { width: 80, fontSize: 16, color: '#727272', textAlign: 'right' } }>Strongly Agree</Text>
 						</View>
 						<View style = { { flex: 4, alignItems: 'center', } }>
 							{ this.renderForm() }

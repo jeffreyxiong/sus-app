@@ -3,6 +3,13 @@ package com.mobilesus;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
+import com.oblador.vectoricons.VectorIconsPackage;
+import io.realm.react.RealmReactPackage;
+import com.bitgo.randombytes.RandomBytesPackage;
+import com.reactnativenavigation.NavigationReactPackage;
+import com.swmansion.gesturehandler.react.RNGestureHandlerPackage;
+import com.rnfs.RNFSPackage;
+import com.RNFetchBlob.RNFetchBlobPackage;
 import com.bitgo.randombytes.RandomBytesPackage;
 import com.rnfs.RNFSPackage;
 import com.facebook.react.ReactNativeHost;
@@ -30,6 +37,13 @@ public class MainApplication extends NavigationApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
+            new VectorIconsPackage(),
+            new RealmReactPackage(),
+            new RandomBytesPackage(),
+            new NavigationReactPackage(),
+            new RNGestureHandlerPackage(),
+            new RNFSPackage(),
+            new RNFetchBlobPackage(),
           new RandomBytesPackage(),
           new RealmReactPackage(),
           new RNFSPackage()

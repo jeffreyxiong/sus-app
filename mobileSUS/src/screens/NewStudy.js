@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import { View, Text, TextInput, Alert, Keyboard, StyleSheet } from 'react-native';
 import AppService from '../AppService';
 import TouchableBox from '../components/TouchableBox';
+import { CheckBox } from 'react-native-elements';
 
 const styles = StyleSheet.create({
 	main: {
@@ -21,6 +22,9 @@ const styles = StyleSheet.create({
 		padding: 15,
 		fontSize: 14
 	},
+	checkbox: {
+		margin: 15,
+	},
 	multilineTextField: {
 		height: 150,
 		paddingTop: 15,
@@ -31,7 +35,7 @@ const styles = StyleSheet.create({
 		fontWeight: '600'
 	},
 	question: {
-		marginTop: 15,
+		marginTop: 8,
 		marginLeft: 15,
 		marginRight: 15,
 		fontSize: 16
@@ -51,12 +55,15 @@ class NewStudy extends Component {
 
 	constructor(props) {
 		super(props);
-		this.state = { nameText: '', descriptionText: '', study: undefined };
+		this.state = { nameText: '', descriptionText: '', study: undefined, systemName: '' };
 	}
 
 	_handleContinue = () => {
 		// Ask user to try again if study name exists
-		var res = AppService.addStudy(this.state.nameText, this.state.descriptionText);
+		if (this.state.systemName === '') {
+			this.state.systemName = 'system';
+		}
+		var res = AppService.addStudy(this.state.nameText, this.state.descriptionText, this.state.systemName);
 		this.setState({study: res});
 		if (res == -1) {
 			Alert.alert(
@@ -74,6 +81,7 @@ class NewStudy extends Component {
 				]);
 		} else {
 			// Reset back to home screen
+			
 			this.props.navigator.resetTo({
 				screen: 'mobilesus.Home',
 				title: 'SUS App',
@@ -111,8 +119,16 @@ class NewStudy extends Component {
 								returnKeyType = { "done" }
 								placeholder = "Ex: iPhone X Notch"
 							/>
-						</View>
-						<View style = { styles.section }>
+							<Text style = { styles.question }>Use this word instead of 'system' in the SUS survey: (optional)</Text>
+							<TextInput 
+								style = { styles.textField }
+								onChangeText = { (systemName) => this._handleChange({ systemName }) }
+								value = { this.state.systemName }
+								returnKeyLabel = { "done" }
+								returnKeyType = { "done" }
+								autoCapitalize = { "none" }
+								placeholder = "Ex: phone"
+							/>
 							<Text style = { styles.question }>Description:</Text>
 							<TextInput 
 								style = {[ styles.textField, styles.multilineTextField ]}

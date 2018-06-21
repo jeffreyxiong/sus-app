@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { View, Text, StyleSheet, Dimensions } from 'react-native';
-import { TabViewAnimated, TabBar, SceneMap } from 'react-native-tab-view';
+import { TabView, TabBar, SceneMap } from 'react-native-tab-view';
 
 const initialLayout = {
 	height: 0,
@@ -44,6 +44,7 @@ const styles = StyleSheet.create({
 });
 
 export default class SliderView extends Component {
+
 	state = {
 		index: 0,
 		routes: [
@@ -54,7 +55,7 @@ export default class SliderView extends Component {
 
 	_handleIndexChange = index => this.setState({ index });
 
-	_renderHeader = props =>
+	_renderTabBar = props =>
 		<TabBar
 			{ ...props }
 			indicatorStyle = { styles.indicator }
@@ -97,11 +98,11 @@ export default class SliderView extends Component {
 	render() {
 
 		return (
-			<TabViewAnimated
+			<TabView
 				style = { styles.container }
 				navigationState = { this.state }
 				renderScene = { this._renderScene }
-				renderHeader = { this._renderHeader }
+				renderTabBar = { this._renderTabBar }
 				onIndexChange = { this._handleIndexChange }
 				initialLayout = { initialLayout }
 			/>

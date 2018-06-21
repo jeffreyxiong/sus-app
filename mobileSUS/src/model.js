@@ -6,6 +6,7 @@ export const StudySchema = {
 	primaryKey: 'name',
 	properties: {
 		name: 'string',
+		system: 'string',
 		date: 'date',
 		description: 'string',
 		participants: {type: 'list', objectType: 'Participant'}
@@ -29,5 +30,14 @@ export const ScoreSchema = {
 	properties: {
 		id: 'string',
 		value: 'int'
+	}
+};
+
+export const EmailSchema = {
+	name: 'Email',
+	primaryKey: 'id',
+	properties: {
+		id: 'int',
+		email: 'string',
 	}
 };

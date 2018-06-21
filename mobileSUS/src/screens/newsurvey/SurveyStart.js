@@ -25,11 +25,11 @@ const styles = StyleSheet.create({
 	},
 	prompt: {
 		margin: 15,
-		fontSize: 16,
+		fontSize: 18,
 		fontWeight: '600'
 	},
 	text: {
-		fontSize: 16,
+		fontSize: 18,
 		flex: 1, 
 		paddingLeft: 15,
 	},
@@ -67,19 +67,19 @@ export default class SurveyStart extends Component {
 				</View>
 				<View style = { styles.instructions }>
 					<View style = { styles.bullet }>
-						<Text style = { { fontSize: 16 } }>{ '\u2022' }</Text>
+						<Text style = { { fontSize: 18 } }>{ '\u2022' }</Text>
 						<Text style = { styles.text }>Keep in mind the system you just used.</Text>
 					</View>
 					<View style = { styles.bullet }>
-						<Text style = { { fontSize: 16 } }>{ '\u2022' }</Text>
+						<Text style = { { fontSize: 18 } }>{ '\u2022' }</Text>
 						<Text style = { styles.text }>Reflect your immediate response to each statement.</Text>
 					</View>
 					<View style = { styles.bullet }>
-						<Text style = { { fontSize: 16 } }>{ '\u2022' }</Text>
+						<Text style = { { fontSize: 18 } }>{ '\u2022' }</Text>
 						<Text style = { styles.text }>Don't think too long on each one.</Text>
 					</View>
 					<View style = { styles.bullet }>
-						<Text style = { { fontSize: 16 } }>{ '\u2022' }</Text>
+						<Text style = { { fontSize: 18 } }>{ '\u2022' }</Text>
 						<Text style = { styles.text }>Make sure you respond to each statement.</Text>
 					</View>
 				</View>

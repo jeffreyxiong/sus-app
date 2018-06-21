@@ -38,7 +38,7 @@ export default class SurveyFinish extends Component {
 
     _handleConfirm = () => {
         this.props.navigator.push({
-			screen: 'mobilesus.SurveyReview',
+			screen: 'mobilesus.SurveyInterstitial',
 			title: 'SUS Survey',
 			animated: true,
 			passProps: {

@@ -1,29 +1,86 @@
 import Realm from 'realm';
-import Exporter from './Exporter'
-import { StudySchema, ParticipantSchema, ScoreSchema } from './model/model';
+import FileService from './FileService'
+import { StudySchema, ParticipantSchema, ScoreSchema, EmailSchema } from './model';
+
+/*
+
+Interface for app to interact with the database and backend layers. 
+
+Types of data:
+	- Studies
+	- Participants
+	- Scores
+	- Saved Email
+
+*/
+
 
 let realm = new Realm({
-	schema: [StudySchema, ParticipantSchema, ScoreSchema]
+	schema: [StudySchema, ParticipantSchema, ScoreSchema, EmailSchema ]
 });
+
+
 
 class AppService {
 
 	constructor () {}
 
-	addStudy(studyName, studyDescription) {
+	/*************************************************************************
+	 * Email Data
+	 ************************************************************************/
+
+	getEmail() {
+		return realm.objectForPrimaryKey('Email', 0)
+	}
+	
+	addEmail(email) {
+		let existing = this.getEmail();
+		if (typeof existing != 'undefined') {
+			this.removeEmail();
+		}
+		realm.write(() => {
+			realm.create('Email', {id: 0, email: email});
+		});
+	}
+
+	removeEmail() {
+		let email = this.getEmail();
+		if (typeof email != 'undefined') {
+			realm.write(() => {
+				realm.delete(this.getEmail());
+			});
+		}
+	}
+
+	/*************************************************************************
+	 * Study Data
+	 ************************************************************************/
+
+	getStudy(studyName) {
+		return realm.objectForPrimaryKey('Study', studyName);
+	}
+
+	getStudies() {
+		return realm.objects('Study');
+	}
+
+	addStudy(studyName, studyDescription, systemName) {
 		// Check for duplicate
 		let study = this.getStudy(studyName);
 		if (typeof study != 'undefined') return -1;
 		if (studyName === "") return -2;
-		let today = new Date();
+
+		// Create Realm data object
 		realm.write(() => {
-			realm.create('Study', {name: studyName, description: studyDescription, date: today, participants: []});
+			realm.create('Study', 
+						{ name: studyName, 
+						  description: studyDescription, 
+						  system: systemName, 
+						  date: new Date(), 
+						  participants: [], 
+						});
 		});
 		return 0;
-	}
-
-	getStudy(studyName) {
-		return realm.objectForPrimaryKey('Study', studyName);
 	}
 
 	removeStudy(studyName) {
@@ -41,8 +98,15 @@ class AppService {
 		}
 	}
 
-	getStudies() {
-		return realm.objects('Study');
+	/*************************************************************************
+	 * Participant Data
+	 ************************************************************************/
+
+	checkParticipant(studyName, participantName) {
+		let p = realm.objectForPrimaryKey('Participant', studyName + "." + participantName);
+		if (typeof p != 'undefined') return -1;
+		if (participantName === "") return -2;
+		return 0;
 	}
 
 	addParticipant(studyName, participantName, participantNotes) {
@@ -60,25 +124,23 @@ class AppService {
 		return 0;
 	}
 
-	checkParticipant(studyName, participantName) {
-		let p = realm.objectForPrimaryKey('Participant', studyName + "." + participantName);
-		if (typeof p != 'undefined') return -1;
-		if (participantName === "") return -2;
-		return 0;
-	}
+	/*************************************************************************
+	 * Score Data
+	 ************************************************************************/
+	
+	getScore(rawData) {
+		var i = 1;
+		var s = 0;
+		for (var j = 0; j < rawData.length; j++) {
+			if (i % 2 == 0) {
+				s += 5 - rawData[j];
+			} else {
+				s += rawData[j] - 1;
+			}
+			i += 1;
+		}
 
-	addScore(studyName, participantName, qid, value) {
-		let p = realm.objectForPrimaryKey('Participant', studyName + "." + participantName);
-		console.log(participantName);
-		if (typeof p === 'undefined') return -1;
-		realm.write(() => {
-			const score = realm.create('Score', {id: participantName + "." + qid, value: value}, true);
-			p.survey.push(score);
-		});
-	}
-
-	parseAppendedName(name) {
-		return name.substring(name.indexOf(".") + 1, name.length);
+		return s * 2.5;
 	}
 
 	getScoreFromID(participantID) {
@@ -97,19 +159,18 @@ class AppService {
 		return s * 2.5;
 	}
 
-	getScore(rawData) {
-		var i = 1;
-		var s = 0;
-		for (var j = 0; j < rawData.length; j++) {
-			if (i % 2 == 0) {
-				s += 5 - rawData[j];
-			} else {
-				s += rawData[j] - 1;
-			}
-			i += 1;
-		}
+	addScore(studyName, participantName, qid, value) {
+		let p = realm.objectForPrimaryKey('Participant', studyName + "." + participantName);
+		console.log(participantName);
+		if (typeof p === 'undefined') return -1;
+		realm.write(() => {
+			const score = realm.create('Score', {id: participantName + "." + qid, value: value}, true);
+			p.survey.push(score);
+		});
+	}
 
-		return s * 2.5;
+	parseAppendedName(name) {
+		return name.substring(name.indexOf(".") + 1, name.length);
 	}
 
 	getStat(studyName) {
@@ -140,11 +201,12 @@ class AppService {
 				total += Math.pow(score - sysmean, 2);
 			}
 			var sysstd = Math.sqrt(total / count);
-			return {size: count, mean: sysmean, std: sysstd, min: sysmin, max: sysmax}
+			return {size: count, mean: sysmean.toFixed(2), std: sysstd.toFixed(2), min: sysmin, max: sysmax}
 		}
 	}
 
-	exportStudy(studyName, emailAddr) {
+	exportStudy(studyName, emailAddr, callback) {
+		console.log(emailAddr);
 		var study = this.getStudy(studyName);
 		var data = 'Study Name\tParticipant ID\tNotes\tSUS 1\tSUS 2\tSUS 3\tSUS 4\tSUS 5\tSUS 6\tSUS 7\tSUS 8\tSUS 9\tSUS 10\tSUS Score\n'
 		if (typeof study != 'undefined') {
@@ -156,9 +218,8 @@ class AppService {
 					data += score.value + '\t'
 				}
 				data += this.getScoreFromID(participant.id) + '\n'
-				console.log(data);
 			}
-			Exporter.writeAndEmailCSV(data, studyName, emailAddr)
+			FileService.writeAndEmailCSV(data, studyName, emailAddr, callback);
 		}
 	}
 }

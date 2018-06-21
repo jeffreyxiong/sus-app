@@ -97,7 +97,7 @@ class ParticipantStart extends Component {
 		return (
 			<View style = { styles.main }>
 				<View style = { styles.form }>
-					<Text style = { styles.prompt }>After you create the participant, hand them the device to conduct a SUS survey.</Text>
+					<Text style = { styles.prompt }>After you enter the participant ID and any notes, hand the participant the device to complete a SUS survey.</Text>
 					<View style={ styles.section }>
 						<Text style = { styles.question }>Participant ID:</Text>
 						<TextInput 
