@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { View, Text, StyleSheet, Dimensions } from 'react-native';
 import { TabView, TabBar, SceneMap } from 'react-native-tab-view';
-import { common, colors } from '../global';
+import { common, colors, dims } from '../global';
 
 const initialLayout = {
 	height: 0,
@@ -22,12 +22,13 @@ const styles = StyleSheet.create({
 	},
 	label: {
 		color: colors.darkBlue,
-		fontWeight: '400',
+		fontSize: dims.textSmall,
+		fontWeight: '600',
 	},
 	scene: {
 		flex: 1,
 		backgroundColor: colors.offWhite,
-		padding: 25,
+		padding: dims.marginStandard,
 	},
 	columnText: {
 		flexDirection: 'row',
@@ -35,8 +36,8 @@ const styles = StyleSheet.create({
 		justifyContent: 'space-between'
 	},
 	text: {
-		fontSize: 18,
-		marginBottom: 15,
+		fontSize: dims.textLarge,
+		marginBottom: dims.textMarginL,
 	},
 	number: {
 		color: colors.textBlue,
@@ -90,38 +91,6 @@ export default class SliderView extends Component {
 			labelStyle = { styles.label }
 			style = { styles.tabbar }
 		/>;
-
-	// _renderScene = ({ route }) => {
-	// 	switch (route.key) {
-	// 		case 'first':
-	// 			return (
-	// 				<View style = { styles.scene }>
-	// 					<Text style = { styles.text }>{ this.props.description }</Text>
-	// 				</View>
-	// 			);
-	// 		case 'second':
-	// 			return (
-	// 				<View style = {[ styles.scene, styles.columnText ]}>
-	// 					<View>
-	// 						<Text style = { styles.text }>participants:</Text>
-	// 						<Text style = { styles.text }>mean:</Text>
-	// 						<Text style = { styles.text }>stdev:</Text>
-	// 						<Text style = { styles.text }>max:</Text>
-	// 						<Text style = { styles.text }>min:</Text>
-	// 					</View>
-	// 					<View>
-	// 						<Text style = {[ styles.text, styles.number ]}>{ this.props.count }</Text>
-	// 						<Text style = {[ styles.text, styles.number ]}>{ this.props.mean }</Text>
-	// 						<Text style = {[ styles.text, styles.number ]}>{ this.props.std }</Text>
-	// 						<Text style = {[ styles.text, styles.number ]}>{ this.props.max }</Text>
-	// 						<Text style = {[ styles.text, styles.number ]}>{ this.props.min }</Text>
-	// 					</View>
-	// 				</View>
-	// 			);
-	// 		default:
-	// 			return null;
-	// 	}
-	// }
 
 	render() {
 

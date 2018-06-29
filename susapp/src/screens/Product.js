@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { View, Text, StyleSheet, Alert } from 'react-native';
 
-import { common, colors, navigator } from '../global';
+import { common, navigator } from '../global';
 import AppService from '../AppService';
 import TouchableBox from '../components/TouchableBox';
 import SliderView from '../components/SliderView';

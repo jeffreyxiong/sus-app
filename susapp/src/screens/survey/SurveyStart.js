@@ -5,14 +5,14 @@ import TouchableBox from '../../components/TouchableBox';
 
 const specific = {
 	bulletText: {
-		fontSize: 18,
+		fontSize: dims.textLarge,
 		flex: 1, 
-		paddingLeft: dims.sideMargin,
+		paddingLeft: dims.marginStandard,
 	},
 	bullet: {
 		flexDirection: 'row',
 		marginLeft: 10,
-		marginBottom: dims.sideMargin,
+		marginBottom: 15,
 	}
 };
 
@@ -44,19 +44,19 @@ export default class Start extends Component {
 					<View style = { styles.paddedContainer }>
 						<Text style = { styles.emphasis }>For each of the following questions:</Text>
 						<View style = { styles.bullet }>
-							<Text style = {{ fontSize: 18}}>{ '\u2022' }</Text>
+							<Text style = {{ fontSize: dims.textLarge}}>{ '\u2022' }</Text>
 							<Text style = { styles.bulletText }>Keep in mind the system you just used.</Text>
 						</View>
 						<View style = { styles.bullet }>
-							<Text style = {{ fontSize: 18 }}>{ '\u2022' }</Text>
+							<Text style = {{ fontSize: dims.textLarge }}>{ '\u2022' }</Text>
 							<Text style = { styles.bulletText }>Reflect your immediate response to each statement.</Text>
 						</View>
 						<View style = { styles.bullet }>
-							<Text style = {{ fontSize: 18 }}>{ '\u2022' }</Text>
+							<Text style = {{ fontSize: dims.textLarge }}>{ '\u2022' }</Text>
 							<Text style = { styles.bulletText }>Don't think too long on each one.</Text>
 						</View>
 						<View style = { styles.bullet }>
-							<Text style = {{ fontSize: 18 }}>{ '\u2022' }</Text>
+							<Text style = {{ fontSize: dims.textLarge }}>{ '\u2022' }</Text>
 							<Text style = { styles.bulletText }>Make sure you respond to each statement.</Text>
 						</View>
 					</View>

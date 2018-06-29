@@ -139,7 +139,7 @@ class NewProduct extends Component {
 					<TouchableBox
 						onPress = { this._handleCreate }
 						disabled = { false }
-						style = { styles.touchFull }
+						style = {[ styles.touchFull, { opacity : this.state.name === '' ? 0.5 : 1}]}
 						textStyle = { {  color: "white" } }
 						text = "Create"
 					/>

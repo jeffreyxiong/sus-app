@@ -2,21 +2,32 @@ import React from 'react';
 import { Dimensions } from 'react-native';
 
 const {height, width} = Dimensions.get('window');
+const aspectRatio = height / width;
+const threshold = aspectRatio > 1.6 ? 375 : 0;
 
 export const dims = {
-    sideMargin: 15,
+    marginStandard: width > threshold ? 30 : 15,
     get contentWidth () { 
-        return width - 2 * dims.sideMargin 
+        return width - 2 * dims.marginStandard 
     },
-    buttonHeight: height / 8,
+    buttonHeight: width >= threshold ? height / 8 : height / 9,
+    // text stuff 
+    textMarginL: width > threshold ? 20 : 10,
+    textMarginS: 5,
+    textSmall: width > threshold ? 16 : 14,
+    textMedium: width > threshold ? 18 : 16,
+    textLarge: width > threshold ? 20 : 18,
 }
 
 // COLORS
 export const colors = {
+    // blues
     darkBlue: '#69A6D7',
     lightBlue: '#E6F2FB',
     textBlue: '#306B9A',
+    // greys
     lightGrey: '#727272',
+    // accents
     alertRed: '#CD4747',
     alertGreen: '#69D794',
     offWhite: '#F7F7F7',
@@ -34,51 +45,50 @@ export const common = {
     },
     paddedContainer: {
         flex: 1,
-        padding: dims.sideMargin,
+        padding: dims.marginStandard,
     },
     content: {
         flex: 4,
-        // alignItems: 'flex-start',
     },
 	footer: {
 		flex: 1,
 		alignItems: 'center',
         justifyContent: 'flex-end',
-        marginTop: dims.sideMargin,
-		marginBottom: dims.sideMargin,
+        marginTop: dims.marginStandard,
+		marginBottom: dims.marginStandard,
     },
 
     // text
     subtitle: {
-        marginBottom: 5,
-        fontSize: 14,
+        marginBottom: dims.textMarginS,
+        fontSize: dims.textSmall,
         color: colors.lightGrey,
     },
     emphasis: {
         width: dims.contentWidth,
-        marginBottom: 10,
+        marginBottom: dims.textMarginL,
         fontWeight: '600',
-        fontSize: 18,
+        fontSize: dims.textLarge,
     },
     spaced: {
-        marginTop: 5,
-        marginBottom: 5,
-		fontSize: 18,
+        marginTop: dims.textMarginS,
+        marginBottom: dims.textMarginS,
+		fontSize: dims.textLarge,
 	},
 
     // forms
     textField: {
         width: dims.contentWidth,
-        marginBottom: dims.sideMargin,
+        marginBottom: dims.marginStandard,
 		borderColor: '#979797', 
 		borderWidth: 1,
 		borderRadius: 5,
-		padding: dims.sideMargin,
-		fontSize: 16
+		padding: 10,
+		fontSize: dims.textMedium
 	},
 	multilineField: {
-		height: 150,
-        paddingTop: dims.sideMargin,
+		flex: 1,
+        paddingTop: 12,
     },
     checkbox: {
         width: dims.contentWidth,

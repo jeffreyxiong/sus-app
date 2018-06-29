@@ -112,7 +112,7 @@ class NewParticipant extends Component {
 					<TouchableBox
 						onPress = { this._handleContinue }
 						disabled = { false }
-						style = { styles.touchFull }
+						style = {[ styles.touchFull, { opacity : this.state.id === '' ? 0.5 : 1}]}
 						textStyle = { { color: 'white' } }
 						text = 'Continue'
 					/>

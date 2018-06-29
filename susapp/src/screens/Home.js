@@ -36,7 +36,7 @@ class Home extends Component {
 			{
 				title: 'Info',
 				id: 'info',
-				buttonFontSize: 14,
+				buttonFontSize: 16,
 				buttonFontWeight: '600', 
 			},
 		]
@@ -72,11 +72,21 @@ class Home extends Component {
 	}
 
 	_handleInfo = () => {
-		this.props.navigator.push({
-			screen: 'screen.Info',
-			title: 'Info',
-			backButtonTitle: '',
-		})
+		// this.props.navigator.push({
+		// 	screen: 'screen.Info',
+		// 	title: 'Info',
+		// 	backButtonTitle: '',
+		// });
+		this.props.navigator.showModal({
+			screen: "screen.Info",
+			title: "Info",
+			navigatorStyle: {
+				navBarLeftButtonColor: colors.darkBlue,
+				navBarRightButtonColor: colors.darkBlue,
+				navBarButtonColor: colors.darkBlue,
+			}, 
+			animationType: 'slide-up',
+		  });
 	}
 
 	_handleNewProduct = () => {

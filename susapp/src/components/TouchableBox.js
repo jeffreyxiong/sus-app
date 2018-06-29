@@ -5,6 +5,7 @@ import { Platform,
 		 StyleSheet, 
 		 TouchableOpacity, 
 		 TouchableNativeFeedback } from 'react-native';
+import { dims } from '../global';
 
 // default styles
 const styles = StyleSheet.create({
@@ -16,7 +17,7 @@ const styles = StyleSheet.create({
 	    margin: 5,
 	},
 	text: {
-	    fontSize: 18,
+	    fontSize: dims.textLarge,
 	    fontWeight: '600',
 	}
 });

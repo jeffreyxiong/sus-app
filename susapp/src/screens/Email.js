@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { ActivityIndicator, View, Text, TextInput, StyleSheet, Alert } from 'react-native';
-import { common, colors, navigator } from '../global';
+import { common, colors, navigator, dims } from '../global';
 import AppService from '../AppService';
 import TouchableBox from '../components/TouchableBox';
 import { CheckBox } from 'react-native-elements';
@@ -90,6 +90,7 @@ export default class Email extends Component {
 								(email) => this._handleChange({ email })
 							}
 							value = { this.state.email }
+							keyboardType = { 'email-address' }
 							returnKeyLabel = { "done" }
 							returnKeyType = { "done" }
 							autoCapitalize = 'none'
@@ -114,14 +115,12 @@ export default class Email extends Component {
 					{ !this.state.animating && <TouchableBox
 						onPress = { this._handleContinue }
 						disabled = { false }
-						style = {{ width: 300, 
-									height: 80, 
-									backgroundColor: colors.darkBlue }}
+						style = {[ styles.touchFull, { opacity : this.state.email === '' ? 0.5 : 1}]}
 						textStyle = {{  color: "white" }}
 						text = "Send"
 					/> }
 					{ this.state.animating && <ActivityIndicator
-						style = {{ marginBottom: 30 }}
+						style = {{ marginBottom: dims.marginStandard }}
 						color = { colors.darkBlue }
 						size = 'large'
 						animating = { this.state.animating }

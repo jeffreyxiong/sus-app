@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Platform, View, Text, StyleSheet, TextInput, Alert } from 'react-native';
-import { common, navigator } from '../../global';
+import { common, navigator, dims } from '../../global';
 import AppService from '../../AppService';
 import TouchableBox from '../../components/TouchableBox';
 
@@ -8,7 +8,7 @@ const specific = {
     text: {
 		marginTop: 5,
 		marginBottom: 5,
-		fontSize: 18
+		fontSize: dims.textLarge
     },
 };
 

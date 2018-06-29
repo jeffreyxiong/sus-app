@@ -4,24 +4,7 @@ import { common, dims } from '../../global';
 import AppService from '../../AppService';
 import TouchableBox from '../../components/TouchableBox';
 
-const specific = {
-    form: {
-		flex: 3,
-		flexDirection: 'column',
-        margin: dims.sideMargin,
-        alignItems: 'center',
-	},
-    prompt: {
-		flex: 1,
-		margin: dims.sideMargin,
-		fontSize: 18,
-		fontWeight: '600',
-        height: 40,
-        textAlign: 'center',
-	},
-};
-
-const styles = StyleSheet.create(Object.assign({}, common, specific));
+const styles = StyleSheet.create(common);
 
 export default class Interstitial extends Component {
 
@@ -47,10 +30,11 @@ export default class Interstitial extends Component {
     render() {
 		return (
 			<View style = { styles.container }>
-				<View style = { styles.form }>
-					<Text style = { styles.prompt }>Experimenter: Press continue to review results.</Text>
+				<View style = { styles.content }>
+					<View style = { styles.paddedContainer }>
+						<Text style = {[ styles.emphasis, { textAlign: 'center' }]}>Experimenter: Press continue to review results.</Text>
+					</View>
 				</View>
-				
 				<View style = { styles.footer }>
 					<TouchableBox
 						onPress = { this._handleConfirm }

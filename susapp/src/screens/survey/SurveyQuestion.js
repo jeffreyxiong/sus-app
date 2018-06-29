@@ -7,18 +7,6 @@ import AnimatedBar from 'react-native-animated-bar';
 import RadioForm, {RadioButton, RadioButtonInput, RadioButtonLabel} from 'react-native-simple-radio-button';
 
 const specific = {
-	prompt: {
-		flex: 1,
-		margin: 15,
-		fontSize: 18,
-		fontWeight: '600',
-		height: 40,
-	},
-	form: {
-		flex: 3,
-		flexDirection: 'column',
-		margin: 15,
-	},
 	hbuttons: {
 		flex: 1,
 		flexDirection: 'row',
@@ -38,7 +26,7 @@ const specific = {
 	},
 	label: {
 		width: 80, 
-		fontSize: 16, 
+		fontSize: dims.textMedium, 
 		color: colors.lightGrey,
 	},
 };
@@ -182,7 +170,7 @@ export default class Question extends Component {
 										labelStyle = {{ fontWeight: 'bold',
 														color: colors.lightGrey, 
 														marginTop: 5,
-														}}
+													 }}
 										onPress = { 
 											(value) => { this.setState({ value: value })}
 										}
@@ -230,39 +218,6 @@ export default class Question extends Component {
 					</View>
 				</View>
 			</View>
-
-
-			// <View style = { styles.container }>
-			// 	<View style = { styles.form }>
-			// 		<Text style = { styles.prompt }>{ this.questions[this.state.qid] }</Text>
-			// 		<View style = {{ flex: 4 }}>
-			// 			<View style = { styles.label }>
-			// 				<Text style = {{ width: 80, fontSize: 16, color: colors.lightGrey, textAlign: 'left' }}>Strongly Disagree</Text>
-			// 				<Text style = {{ width: 80, fontSize: 16, color: colors.lightGrey, textAlign: 'right' }}>Strongly Agree</Text>
-			// 			</View>
-			// 			<View style = {{ flex: 4, alignItems: 'center', }}>
-			// 				{ this._renderForm() }
-			// 				<AnimatedBar
-			// 					progress = { this.state.progress }
-			// 					height = { 5 }
-			// 					barColor = { colors.darkBlue }
-			// 					fillColor = { colors.lightBlue }
-			// 					borderWidth = { 0 }
-			// 					animate = { true }
-			// 					style = {{ marginTop: 45, marginLeft: 15, marginRight: 15 }}
-			// 				/>
-			// 			</View>
-			// 		</View>
-					
-			// 	</View>
-			// 	<View style = { styles.footer }>
-			// 		<View style = { styles.hbuttons }>
-			// 			{ this._renderPrev() }
-			// 			{ this._renderNext() }
-			// 			{ this._renderFinish() }
-			// 		</View>
-			// 	</View>
-			// </View>
 		);
 	}
 }
