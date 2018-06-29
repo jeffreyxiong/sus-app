@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
-import { common, darkBlue } from '../../global';
+import { common, dims } from '../../global';
 import AppService from '../../AppService';
 import TouchableBox from '../../components/TouchableBox';
 
@@ -8,12 +8,12 @@ const specific = {
     form: {
 		flex: 3,
 		flexDirection: 'column',
-        margin: 15,
+        margin: dims.sideMargin,
         alignItems: 'center',
 	},
     prompt: {
 		flex: 1,
-		margin: 15,
+		margin: dims.sideMargin,
 		fontSize: 18,
 		fontWeight: '600',
         height: 40,
@@ -56,8 +56,8 @@ export default class Interstitial extends Component {
 						onPress = { this._handleConfirm }
 						disabled = { false }
 						style = { styles.touchFull }
-						textStyle = { { color: "white" } }
-						text = "Continue"
+						textStyle = { { color: 'white' } }
+						text = 'Continue'
 					/>
 				</View>
 			</View>

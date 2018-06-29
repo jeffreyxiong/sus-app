@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { View, Text, StyleSheet, Alert } from 'react-native';
 
-import { common, darkBlue, navigator } from '../global';
+import { common, colors, navigator } from '../global';
 import AppService from '../AppService';
 import TouchableBox from '../components/TouchableBox';
 import SliderView from '../components/SliderView';
@@ -39,7 +39,7 @@ class Product extends Component {
 			screen: 'screen.NewParticipant',
 			title: this.props.productName,
 			animated: true,
-			backButtonTitle: "",
+			backButtonTitle: '',
 			passProps: {
 				productName: this.props.productName
 			}
@@ -49,9 +49,9 @@ class Product extends Component {
 	_handleEmail = () => {
 		this.props.navigator.push({
 			screen: 'screen.Email',
-			title: 'Email "' + this.props.productName + '" Data',
+			title: 'Email \'' + this.props.productName + '\' Data',
 			animate: true,
-			backButtonTitle: "",
+			backButtonTitle: '',
 			passProps: {
 				productName: this.props.productName,
 			}
@@ -97,15 +97,15 @@ class Product extends Component {
 						onPress = { this._handleAddParticipant }
 						disabled = { false }
 						style = { styles.touchFull }
-						textStyle = { { color: "white" } }
-						text = "Add a New Participant"
+						textStyle = { { color: 'white' } }
+						text = 'Add a New Participant'
 					/>
 					<TouchableBox
 						onPress = { this._handleEmail }
 						disabled = { false }
 						style = { styles.touchFull }
-						textStyle = { { color: "white" } }
-						text = "Email Product Data"
+						textStyle = { { color: 'white' } }
+						text = 'Email Product Data'
 					/>
 					
 				</View>

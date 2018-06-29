@@ -14,6 +14,7 @@ import SurveyInterstitial from './screens/survey/SurveyInterstitial';
 import Email from './screens/Email';
 import Success from './screens/notifications/Success';
 import Fail from './screens/notifications/Fail';
+import { colors } from './global';
 
 // Export screens
 export default () => {
@@ -39,9 +40,9 @@ export default () => {
 			screen:'screen.Home',
 			title:'Home',
 			navigatorStyle: {
-				navBarLeftButtonColor: '#69A6D7',
-				navBarRightButtonColor: '#69A6D7',
-				navBarButtonColor: '#69A6D7',
+				navBarLeftButtonColor: colors.darkBlue,
+				navBarRightButtonColor: colors.darkBlue,
+				navBarButtonColor: colors.darkBlue,
 			},
 		},
 		appStyle: { navBarNoBorder: true, },

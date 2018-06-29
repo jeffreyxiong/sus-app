@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
-import { common, darkBlue } from '../../global';
+import { common } from '../../global';
 import AppService from '../../AppService';
 import TouchableBox from '../../components/TouchableBox';
 
@@ -57,8 +57,8 @@ export default class Finish extends Component {
 						onPress = { this._handleConfirm }
 						disabled = { false }
 						style = { styles.touchFull }
-						textStyle = { { color: "white" } }
-						text = "Confirm"
+						textStyle = { { color: 'white' } }
+						text = 'Confirm'
 					/>
 				</View>
 			</View>

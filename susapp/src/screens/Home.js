@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Dimensions, View, Text, StyleSheet, Image } from 'react-native';
 
-import { common, darkBlue } from '../global';
+import { common, colors, dims } from '../global';
 import AppService from '../AppService';
 import BoxScrollView from  '../components/BoxScrollView';
 import TouchableBox from '../components/TouchableBox';
@@ -21,9 +21,9 @@ const specific = {
 		justifyContent: 'center',
 	},
 	touchProduct: {
-		width: 300, 
-        height: 80,
-		backgroundColor: "#E6F2FB",
+		width: dims.contentWidth, 
+        height: dims.buttonHeight,
+		backgroundColor: colors.lightBlue,
 		borderRadius: 5,
 	}
 };
@@ -63,9 +63,9 @@ class Home extends Component {
 
 	_handleEmailAlert = () => {
 		this.props.navigator.showInAppNotification({
-			screen: "note.Success",
+			screen: 'note.Success',
 			passProps: {
-				text: "Emailed " + this.props.productName + " successfully."
+				text: 'Emailed ' + this.props.productName + ' successfully.'
 			}, 
 			autoDismissTimerSec: 3
 		});
@@ -75,7 +75,7 @@ class Home extends Component {
 		this.props.navigator.push({
 			screen: 'screen.Info',
 			title: 'Info',
-			backButtonTitle: "",
+			backButtonTitle: '',
 		})
 	}
 
@@ -83,7 +83,7 @@ class Home extends Component {
 		this.props.navigator.push({
 			screen: 'screen.NewProduct',
 			title: 'Add a New Product',
-			backButtonTitle: ""
+			backButtonTitle: '',
 		});
 	}
 
@@ -92,7 +92,7 @@ class Home extends Component {
 		this.props.navigator.push({
 			screen: 'screen.Product',
 			title: product.name,
-			backButtonTitle: "",
+			backButtonTitle: '',
 			passProps: {
 				productName: product.name,
 				productDesc: product.description,
@@ -114,7 +114,7 @@ class Home extends Component {
 					onPress = { () => this._handleOpenProduct(product) }
 					disabled = { false }
 					style = { styles.touchProduct }
-					textStyle = { { color: "black" } }
+					textStyle = { { color: 'black' } }
 					text = { product.name }
 				/>
 			);
@@ -126,14 +126,14 @@ class Home extends Component {
 		let products = AppService.getProducts();
 
 		var existing;
-		var {height, width} = Dimensions.get('window');
+		const {height, width} = Dimensions.get('window');
 
 		if (products.length != 0) {
 			existing = 	
 				<BoxScrollView
 					style = { styles.existing }
 					titleStyle = { styles.subtitle }
-					title = "Existing Products">
+					title = 'Existing Products'>
 					{ this.renderProducts() }
 				</BoxScrollView>
 		} else {
@@ -160,8 +160,8 @@ class Home extends Component {
 						onPress = { this._handleNewProduct }
 						disabled = { false }
 						style = { styles.touchFull }
-						textStyle = { { color: "white" } }
-						text = "Add a New Product"
+						textStyle = { { color: 'white' } }
+						text = 'Add a New Product'
 					/>
 				</View>
 			</View>

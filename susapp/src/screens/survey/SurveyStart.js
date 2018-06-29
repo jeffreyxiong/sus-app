@@ -1,18 +1,18 @@
 import React, { Component } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
-import { common, darkBlue } from '../../global';
+import { common, dims } from '../../global';
 import TouchableBox from '../../components/TouchableBox';
 
 const specific = {
 	bulletText: {
 		fontSize: 18,
 		flex: 1, 
-		paddingLeft: 15,
+		paddingLeft: dims.sideMargin,
 	},
 	bullet: {
 		flexDirection: 'row',
 		marginLeft: 10,
-		marginBottom: 15,
+		marginBottom: dims.sideMargin,
 	}
 };
 
@@ -43,24 +43,22 @@ export default class Start extends Component {
 				<View style = { styles.content }>
 					<View style = { styles.paddedContainer }>
 						<Text style = { styles.emphasis }>For each of the following questions:</Text>
-						{/* <View style = { styles.instructions }> */}
-							<View style = { styles.bullet }>
-								<Text style = {{ fontSize: 18}}>{ '\u2022' }</Text>
-								<Text style = { styles.bulletText }>Keep in mind the system you just used.</Text>
-							</View>
-							<View style = { styles.bullet }>
-								<Text style = {{ fontSize: 18 }}>{ '\u2022' }</Text>
-								<Text style = { styles.bulletText }>Reflect your immediate response to each statement.</Text>
-							</View>
-							<View style = { styles.bullet }>
-								<Text style = {{ fontSize: 18 }}>{ '\u2022' }</Text>
-								<Text style = { styles.bulletText }>Don't think too long on each one.</Text>
-							</View>
-							<View style = { styles.bullet }>
-								<Text style = {{ fontSize: 18 }}>{ '\u2022' }</Text>
-								<Text style = { styles.bulletText }>Make sure you respond to each statement.</Text>
-							</View>
-						{/* </View> */}
+						<View style = { styles.bullet }>
+							<Text style = {{ fontSize: 18}}>{ '\u2022' }</Text>
+							<Text style = { styles.bulletText }>Keep in mind the system you just used.</Text>
+						</View>
+						<View style = { styles.bullet }>
+							<Text style = {{ fontSize: 18 }}>{ '\u2022' }</Text>
+							<Text style = { styles.bulletText }>Reflect your immediate response to each statement.</Text>
+						</View>
+						<View style = { styles.bullet }>
+							<Text style = {{ fontSize: 18 }}>{ '\u2022' }</Text>
+							<Text style = { styles.bulletText }>Don't think too long on each one.</Text>
+						</View>
+						<View style = { styles.bullet }>
+							<Text style = {{ fontSize: 18 }}>{ '\u2022' }</Text>
+							<Text style = { styles.bulletText }>Make sure you respond to each statement.</Text>
+						</View>
 					</View>
 				</View>
 				<View style = { styles.footer }>
@@ -68,8 +66,8 @@ export default class Start extends Component {
 						onPress = { this._handleStart }
 						disabled = { false }
 						style = { styles.touchFull }
-						textStyle = { { color: "white" } }
-						text = "Start"
+						textStyle = { { color: 'white' } }
+						text = 'Start'
 					/>
 				</View>
 			</View>

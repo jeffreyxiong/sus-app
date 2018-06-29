@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import { Dimensions, View, Text, StyleSheet } from 'react-native';
+import { colors } from '../../global';
 
-var {height, width} = Dimensions.get('window');
+const {height, width} = Dimensions.get('window');
 
 const styles = StyleSheet.create({
 
@@ -10,7 +11,7 @@ const styles = StyleSheet.create({
         width: width,
         padding: 15,
         paddingTop: 35,
-        backgroundColor: '#CD4747',
+        backgroundColor: colors.alertRed,
         alignItems: 'center',
     }
 

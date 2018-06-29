@@ -4,7 +4,7 @@ import { View, Text, Alert, StyleSheet } from 'react-native';
 import { CheckBox } from 'react-native-elements';
 import InputScrollView from 'react-native-input-scroll-view';
 
-import { common, darkBlue, navigator } from '../global';
+import { common, colors, navigator } from '../global';
 import AppService from '../AppService';
 import TextInput from '../components/TextInput';
 import TouchableBox from '../components/TouchableBox';
@@ -96,7 +96,7 @@ class NewProduct extends Component {
 							}
 						/>
 						<Text style = { styles.spaced }>Use this word instead of 'system' in the SUS survey: 
-							<Text style = {{ color: '#727272', fontStyle: 'italic' }}> (optional)</Text>
+							<Text style = {{ color: colors.lightGrey, fontStyle: 'italic' }}> (optional)</Text>
 						</Text>
 						<TextInput 
 							style = { styles.textField }
@@ -116,7 +116,7 @@ class NewProduct extends Component {
 							}
 						/>
 						<Text style = { styles.spaced }>Description:
-							<Text style = {{ color: '#727272', fontStyle: 'italic' }}> (optional)</Text>
+							<Text style = {{ color: colors.lightGrey, fontStyle: 'italic' }}> (optional)</Text>
 						</Text>
 						<TextInput 
 							style = {[ styles.textField, styles.multilineField ]}

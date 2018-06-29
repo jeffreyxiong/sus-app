@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet } from 'react-native';
-import { common, darkBlue } from '../../global';
+import { Dimensions, View, Text, StyleSheet } from 'react-native';
+import { common, colors, dims } from '../../global';
 import AppService from '../../AppService';
 import TouchableBox from '../../components/TouchableBox';
-import AnimatedBar from "react-native-animated-bar";
+import AnimatedBar from 'react-native-animated-bar';
 import RadioForm, {RadioButton, RadioButtonInput, RadioButtonLabel} from 'react-native-simple-radio-button';
 
 const specific = {
@@ -25,17 +25,23 @@ const specific = {
         justifyContent: 'space-between',
 		alignItems: 'flex-end',
 	},
-	label: {
+	labelWrap: {
 		flex: 1,
-		height: 50,
 		flexDirection: 'row',
 		justifyContent: 'space-between',
-		marginLeft: 15,
-		marginRight: 15,
-		marginBottom: 15,
-	}
+		alignItems: 'center',
+	},
+	buttonWrap: {
+		flex: 1,
+		flexDirection: 'row',
+		justifyContent: 'space-between',
+	},
+	label: {
+		width: 80, 
+		fontSize: 16, 
+		color: colors.lightGrey,
+	},
 };
-
 const styles = StyleSheet.create(Object.assign({}, common, specific));
 
 const radio_props = [
@@ -46,6 +52,8 @@ const radio_props = [
   	{label: '5', value: 5 },
 ];
 
+const {height, width} = Dimensions.get('window');
+
 export default class Question extends Component {
 
 	constructor(props) {
@@ -55,19 +63,20 @@ export default class Question extends Component {
 
 		let product = AppService.getProduct(this.props.productName);
 		let systemName = product.system;
-
-		this.questions = [ "I think that I would like to use this " + systemName + " frequently.",
-						   "I found the " + systemName + " unnecessarily complex.",
-						   "I thought the " + systemName + " was easy to use.",
-						   "I think that I would need the support of a technical person to be able to use this " + systemName + ".",
-						   "I found the various functions in this " + systemName + " were well integrated.",
-						   "I thought there was too much inconsistency in this " + systemName + ".",
-						   "I would imagine that most people would learn to use this " + systemName + " very quickly.",
-						   "I found the " + systemName + " very awkward to use.",
-						   "I felt very confident using the " + systemName + ".",
-						   "I needed to learn a lot of things before I could get going with this " + systemName + "."
-						 ];
 	}
+
+	questions = [ 
+		'I think that I would like to use this ' + this.systemName + ' frequently.',
+		'I found the ' + this.systemName + ' unnecessarily complex.',
+		'I thought the ' + this.systemName + ' was easy to use.',
+		'I think that I would need the support of a technical person to be able to use this ' + this.systemName + '.',
+		'I found the various functions in this ' + this.systemName + ' were well integrated.',
+		'I thought there was too much inconsistency in this ' + this.systemName + '.',
+		'I would imagine that most people would learn to use this ' + this.systemName + ' very quickly.',
+		'I found the ' + this.systemName + ' very awkward to use.',
+		'I felt very confident using the ' + this.systemName + '.',
+		'I needed to learn a lot of things before I could get going with this ' + this.systemName + '.' 
+	];
 
 	_handleNext = () => {
 		console.log(this.state.qid, this.state.value);
@@ -104,89 +113,55 @@ export default class Question extends Component {
 		});
 	}
 
-	renderPrev() {
+	_renderBox = (text, callback, disabled) => {
+		var opacity = disabled ? 0.5 : 1;
+		var dir = text === 'Prev' ? { marginRight: 5 } : { marginLeft: 5 };
+		return (
+			<TouchableBox
+				onPress = { callback }
+				disabled = { disabled }
+				style = {[ styles.touchHalf, { opacity: opacity }, dir ]}
+				text = { text }
+				textStyle = {{ color: 'white' }}
+			/>
+		);
+	}
+
+	_renderPrev() {
 		if (this.state.qid > 0) {
-			return (
-				<TouchableBox
-					onPress = { this._handlePrev }
-					disabled = { false }
-					style = { styles.touchHalf }
-					textStyle = { { color: "white" } }
-					text = "Back"
-				/>
-			);
+			return this._renderBox('Back', this._handlePrev, false);
 		} else {
-			return (
-				<TouchableBox
-					onPress = { () => {} }
-					disabled = { true }
-					style = {[ styles.touchHalf, { opacity: 0.5 }]}
-					textStyle = { { color: "white" } }
-					text = "Back"
-				/>
-			);
+			return this._renderBox('Back', () => {}, true);
 		}
 		return null;
 	}
 
-	renderNext() {
+	_renderNext() {
 		// Save survey results
 		if (this.state.qid < this.questions.length - 1) {
 			if (this.state.value === 0) {
-				return (
-					<TouchableBox
-						onPress = { () => {} }
-						disabled = { true }
-						style = {[ styles.touchHalf, { opacity: 0.5 }]}
-						textStyle = { { color: "white" } }
-						text = "Next"
-					/>
-				);
+				return this._renderBox('Next', () => {}, true);
 			}
-			return (
-				<TouchableBox
-					onPress = { this._handleNext }
-					disabled = { false }
-					style = { styles.touchHalf }
-					textStyle = { { color: "white" } }
-					text = "Next"
-				/>
-			);
+			return this._renderBox('Next', this._handleNext, false);
 		}
 		return null;
 	}
 
-	renderFinish() {
+	_renderFinish() {
 		if (this.state.qid === this.questions.length - 1) {
 			if (this.state.value === 0) {
-				return (
-					<TouchableBox
-						onPress = { () => {} }
-						disabled = { true }
-						style = {[ styles.touchHalf, { opacity: 0.5 }]}
-						textStyle = { { color: "white" } }
-						text = "Finish"
-					/>
-				);
+				return this._renderBox('Finish', () => {}, true);
 			}
-			return (
-				<TouchableBox
-					onPress = { this._handleFinish }
-					disabled = { false }
-					style = { styles.touchHalf }
-					textStyle = { {color: "white"} }
-					text = "Finish"
-				/>
-			);
+			return this._renderBox('Finish', this._handleFinish, false);
 		}
 		return null;
 	}
 
-	renderForm() {
-		if (this.state.qid < this.questions.length) {
+	_renderForm() {
+		// if (this.state.qid < this.questions.length) {
 			return (
-				<View>
-					<RadioForm formHorizontal = { true } animation = { true } initial = { -1 } >
+				<View style = {{ flex: 2 }}>
+					<RadioForm formHorizontal = { true } animation = { true } initial = { -1 } style = { styles.buttonWrap }>
 						{ radio_props.map((obj, i) => {
 							return (
 								<RadioButton labelHorizontal={false} key={i} >
@@ -197,19 +172,17 @@ export default class Question extends Component {
 										onPress = { 
 											(value) => { this.setState({ value: value })} 
 										}
-										buttonInnerColor = { darkBlue }
-										buttonOuterColor = { darkBlue }
-										buttonSize = { 35 }
-										buttonWrapStyle = {{ marginLeft: 3, 
-															 marginRight: 12 }}
+										buttonInnerColor = { colors.darkBlue }
+										buttonOuterColor = { colors.darkBlue }
+										buttonSize = { width / 9 }
 									/>
 									<RadioButtonLabel
 										obj = { obj }
 										index = { i }
 										labelStyle = {{ fontWeight: 'bold',
-														color: '#727272', 
-														marginTop: 5, 
-														marginRight: 7 }}
+														color: colors.lightGrey, 
+														marginTop: 5,
+														}}
 										onPress = { 
 											(value) => { this.setState({ value: value })}
 										}
@@ -220,43 +193,76 @@ export default class Question extends Component {
 					</RadioForm>
 				</View>
 			);
-		}
+		// }
 	}
 
 
 	render() {
 		return (
 			<View style = { styles.container }>
-				<View style = { styles.form }>
-					<Text style = { styles.prompt }>{ this.questions[this.state.qid] }</Text>
-					<View style = {{ flex: 4 }}>
-						<View style = { styles.label }>
-							<Text style = {{ width: 80, fontSize: 16, color: '#727272', textAlign: 'left' }}>Strongly Disagree</Text>
-							<Text style = {{ width: 80, fontSize: 16, color: '#727272', textAlign: 'right' }}>Strongly Agree</Text>
-						</View>
-						<View style = {{ flex: 4, alignItems: 'center', }}>
-							{ this.renderForm() }
-							<AnimatedBar
-								progress = { this.state.progress }
-								height = { 5 }
-								barColor = { darkBlue }
-								fillColor = "#E6F2FB"
-								borderWidth = { 0 }
-								animate = { true }
-								style = {{ marginTop: 45, marginLeft: 15, marginRight: 15 }}
-							/>
+				<View style = { styles.content }>
+					<View style = { styles.paddedContainer }>
+						<Text style = {[ styles.emphasis, { flex: 1, }]}>{ this.questions[this.state.qid] }</Text>
+						<View style = {{ flex: 4, flexDirection: 'column', justifyContent: 'space-around', }}>
+							<View style = {[ styles.labelWrap, { alignItems: 'flex-start', }]}>
+								<Text style = {[ styles.label, { textAlign: 'left' }]}>Strongly Disagree</Text>
+								<Text style = {[ styles.label, { textAlign: 'right' }]}>Strongly Agree</Text>
+							</View>
+							{ this._renderForm() }
+							<View style = {{ flex: 1, justifyContent: 'flex-start', }}>
+								<AnimatedBar
+									progress = { this.state.progress }
+									height = { 5 }
+									barColor = { colors.darkBlue }
+									fillColor = { colors.lightBlue }
+									borderWidth = { 0 }
+									animate = { true }
+								/>
+							</View>
 						</View>
 					</View>
-					
 				</View>
 				<View style = { styles.footer }>
 					<View style = { styles.hbuttons }>
-						{ this.renderPrev() }
-						{ this.renderNext() }
-						{ this.renderFinish() }
+						{ this._renderPrev() }
+						{ this._renderNext() }
+						{ this._renderFinish() }
 					</View>
 				</View>
 			</View>
+
+
+			// <View style = { styles.container }>
+			// 	<View style = { styles.form }>
+			// 		<Text style = { styles.prompt }>{ this.questions[this.state.qid] }</Text>
+			// 		<View style = {{ flex: 4 }}>
+			// 			<View style = { styles.label }>
+			// 				<Text style = {{ width: 80, fontSize: 16, color: colors.lightGrey, textAlign: 'left' }}>Strongly Disagree</Text>
+			// 				<Text style = {{ width: 80, fontSize: 16, color: colors.lightGrey, textAlign: 'right' }}>Strongly Agree</Text>
+			// 			</View>
+			// 			<View style = {{ flex: 4, alignItems: 'center', }}>
+			// 				{ this._renderForm() }
+			// 				<AnimatedBar
+			// 					progress = { this.state.progress }
+			// 					height = { 5 }
+			// 					barColor = { colors.darkBlue }
+			// 					fillColor = { colors.lightBlue }
+			// 					borderWidth = { 0 }
+			// 					animate = { true }
+			// 					style = {{ marginTop: 45, marginLeft: 15, marginRight: 15 }}
+			// 				/>
+			// 			</View>
+			// 		</View>
+					
+			// 	</View>
+			// 	<View style = { styles.footer }>
+			// 		<View style = { styles.hbuttons }>
+			// 			{ this._renderPrev() }
+			// 			{ this._renderNext() }
+			// 			{ this._renderFinish() }
+			// 		</View>
+			// 	</View>
+			// </View>
 		);
 	}
 }

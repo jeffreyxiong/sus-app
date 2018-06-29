@@ -27,7 +27,7 @@ export default class TouchableBox extends Component {
 
 		const { onPress, disabled, style, textStyle, text } = this.props;
 
-		if (Platform.OS === "ios") {
+		if (Platform.OS === 'ios') {
 			return (
 				<View>
 					<TouchableOpacity onPress = { onPress } 

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { View, Text, StyleSheet, Alert } from 'react-native';
 import InputScrollView from 'react-native-input-scroll-view';
 
-import { common, darkBlue } from '../global';
+import { common, colors } from '../global';
 import AppService from '../AppService';
 import TouchableBox from '../components/TouchableBox';
 import TextInput from '../components/TextInput';
@@ -34,19 +34,19 @@ class NewParticipant extends Component {
 				'Error', 
 				'A participant with this ID already exists.', 
 				[
-					{text: "Ok, I'll rename.", onPress: () => {} }
+					{text: 'Ok, I\'ll rename.', onPress: () => {} }
 				]);
 		} else if (res == -2) {
 			Alert.alert(
 				'Error', 
 				'A participant must have a non-empty ID.', 
 				[
-					{text: "Ok, I'll rename.", onPress: () => {} }
+					{text: 'Ok, I\'ll rename.', onPress: () => {} }
 				]);
 		} else {	
 			this.props.navigator.push({
 				screen: 'survey.Start',
-				title: "SUS Instructions",
+				title: 'SUS Instructions',
 				passProps: {
 					participantName: this.state.id,
 					productName: this.props.productName,
@@ -83,9 +83,9 @@ class NewParticipant extends Component {
 								(id) => this._handleChange({ id }) 
 							}
 							value = { this.state.id }
-							returnKeyLabel = { "next" }
-							returnKeyType = { "next" }
-							placeholder = "ex: 001"
+							returnKeyLabel = { 'next' }
+							returnKeyType = { 'next' }
+							placeholder = 'ex: 001'
 							onSubmitEditing = { 
 								(event) => this.descInput.focus()
 							}
@@ -97,11 +97,11 @@ class NewParticipant extends Component {
 								(notes) => this._handleChange({ notes }) 
 							}
 							multiline = { true }
-							returnKeyLabel = { "done" }
-							returnKeyType = { "done" }
+							returnKeyLabel = { 'done' }
+							returnKeyType = { 'done' }
 							blurOnSubmit = { true }
 							value = { this.state.notes }
-							placeholder = "ex: Stopped three times during this experiment.."
+							placeholder = 'ex: Stopped two times during this experiment.'
 							inputRef = { 
 								(input) => { this.descInput = input; }
 							}
@@ -113,8 +113,8 @@ class NewParticipant extends Component {
 						onPress = { this._handleContinue }
 						disabled = { false }
 						style = { styles.touchFull }
-						textStyle = { { color: "white" } }
-						text = "Continue"
+						textStyle = { { color: 'white' } }
+						text = 'Continue'
 					/>
 				</View>
 			</View>

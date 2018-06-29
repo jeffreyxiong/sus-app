@@ -57,7 +57,7 @@ class AppService {
 		// Check for duplicate
 		let product = this.getProduct(name);
 		if (typeof product != 'undefined') return -1;
-		if (name === "") return -2;
+		if (name === '') return -2;
 
 		// Create Realm data object
 		realm.write(() => {
@@ -98,7 +98,7 @@ class AppService {
 		let p = realm.objectForPrimaryKey('Participant', this.append(product, id));
 
 		if (typeof p != 'undefined') return -1;
-		if (id === "") return -2;
+		if (id === '') return -2;
 
 		return 0;
 	}
@@ -108,7 +108,7 @@ class AppService {
 		let p = realm.objectForPrimaryKey('Participant', id);
 		
 		if (typeof p != 'undefined') return -1;
-		if (id === "") return -2;
+		if (id === '') return -2;
 
 		var product = this.getProduct(product);
 		realm.write(() => {
@@ -238,7 +238,7 @@ class AppService {
 	}
 
 	parse(id) {
-		return id.substring(id.indexOf(".") + 1, id.length);
+		return id.substring(id.indexOf('.') + 1, id.length);
 	}
 
 	tabulate(words) {

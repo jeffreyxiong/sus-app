@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { View, Text, StyleSheet, Dimensions } from 'react-native';
 import { TabView, TabBar, SceneMap } from 'react-native-tab-view';
-import { common, darkBlue } from '../global';
+import { common, colors } from '../global';
 
 const initialLayout = {
 	height: 0,
@@ -14,19 +14,19 @@ const styles = StyleSheet.create({
 		marginTop: 5,
 	},
 	indicator: {
-		backgroundColor: darkBlue,
+		backgroundColor: colors.darkBlue,
 	},
 	tabbar: {
 		height: 60,
 		backgroundColor: 'white',
 	},
 	label: {
-		color: darkBlue,
+		color: colors.darkBlue,
 		fontWeight: '400',
 	},
 	scene: {
 		flex: 1,
-		backgroundColor: '#F7F7F7',
+		backgroundColor: colors.offWhite,
 		padding: 25,
 	},
 	columnText: {
@@ -39,22 +39,49 @@ const styles = StyleSheet.create({
 		marginBottom: 15,
 	},
 	number: {
-		color: "#306B9A",
+		color: colors.textBlue,
 		fontWeight: '600',
 	}
 });
 
 export default class SliderView extends Component {
 
+	firstRoute = () => {
+		return (
+			<View style = { styles.scene }>
+				<Text style = { styles.text }>{ this.props.description }</Text>
+			</View>
+		);
+	}
+
+	secondRoute = () => {
+		return (
+			<View style = {[ styles.scene, styles.columnText ]}>
+				<View>
+					<Text style = { styles.text }>participants:</Text>
+					<Text style = { styles.text }>mean:</Text>
+					<Text style = { styles.text }>stdev:</Text>
+					<Text style = { styles.text }>max:</Text>
+					<Text style = { styles.text }>min:</Text>
+				</View>
+				<View>
+					<Text style = {[ styles.text, styles.number ]}>{ this.props.count }</Text>
+					<Text style = {[ styles.text, styles.number ]}>{ this.props.mean }</Text>
+					<Text style = {[ styles.text, styles.number ]}>{ this.props.std }</Text>
+					<Text style = {[ styles.text, styles.number ]}>{ this.props.max }</Text>
+					<Text style = {[ styles.text, styles.number ]}>{ this.props.min }</Text>
+				</View>
+			</View>
+		);
+	}
+
 	state = {
 		index: 0,
 		routes: [
-			{ key: '1', title: 'Description' },
-			{ key: '2', title: 'Data' },
+			{ key: 'first', title: 'Description' },
+			{ key: 'second', title: 'Data' },
 		],
 	};
-
-	_handleIndexChange = index => this.setState({ index });
 
 	_renderTabBar = props =>
 		<TabBar
@@ -64,37 +91,37 @@ export default class SliderView extends Component {
 			style = { styles.tabbar }
 		/>;
 
-	_renderScene = ({ route }) => {
-		switch (route.key) {
-			case '1':
-				return (
-					<View style = { styles.scene }>
-						<Text style = { styles.text }>{ this.props.description }</Text>
-					</View>
-				)
-			case '2':
-				return (
-					<View style = {[ styles.scene, styles.columnText ]}>
-						<View>
-							<Text style = { styles.text }>participants:</Text>
-							<Text style = { styles.text }>mean:</Text>
-							<Text style = { styles.text }>sample std. dev.:</Text>
-							<Text style = { styles.text }>max:</Text>
-							<Text style = { styles.text }>min:</Text>
-						</View>
-						<View>
-							<Text style = {[ styles.text, styles.number ]}>{ this.props.count }</Text>
-							<Text style = {[ styles.text, styles.number ]}>{ this.props.mean }</Text>
-							<Text style = {[ styles.text, styles.number ]}>{ this.props.std }</Text>
-							<Text style = {[ styles.text, styles.number ]}>{ this.props.max }</Text>
-							<Text style = {[ styles.text, styles.number ]}>{ this.props.min }</Text>
-						</View>
-					</View>
-				)
-			default:
-				return null
-		}
-	}
+	// _renderScene = ({ route }) => {
+	// 	switch (route.key) {
+	// 		case 'first':
+	// 			return (
+	// 				<View style = { styles.scene }>
+	// 					<Text style = { styles.text }>{ this.props.description }</Text>
+	// 				</View>
+	// 			);
+	// 		case 'second':
+	// 			return (
+	// 				<View style = {[ styles.scene, styles.columnText ]}>
+	// 					<View>
+	// 						<Text style = { styles.text }>participants:</Text>
+	// 						<Text style = { styles.text }>mean:</Text>
+	// 						<Text style = { styles.text }>stdev:</Text>
+	// 						<Text style = { styles.text }>max:</Text>
+	// 						<Text style = { styles.text }>min:</Text>
+	// 					</View>
+	// 					<View>
+	// 						<Text style = {[ styles.text, styles.number ]}>{ this.props.count }</Text>
+	// 						<Text style = {[ styles.text, styles.number ]}>{ this.props.mean }</Text>
+	// 						<Text style = {[ styles.text, styles.number ]}>{ this.props.std }</Text>
+	// 						<Text style = {[ styles.text, styles.number ]}>{ this.props.max }</Text>
+	// 						<Text style = {[ styles.text, styles.number ]}>{ this.props.min }</Text>
+	// 					</View>
+	// 				</View>
+	// 			);
+	// 		default:
+	// 			return null;
+	// 	}
+	// }
 
 	render() {
 
@@ -102,9 +129,12 @@ export default class SliderView extends Component {
 			<TabView
 				style = { styles.container }
 				navigationState = { this.state }
-				renderScene = { this._renderScene }
+				renderScene = { SceneMap({
+					first: this.firstRoute,
+					second: this.secondRoute,
+				}) }
 				renderTabBar = { this._renderTabBar }
-				onIndexChange = { this._handleIndexChange }
+				onIndexChange = { (index) => this.setState({ index }) }
 				initialLayout = { initialLayout }
 			/>
 		);

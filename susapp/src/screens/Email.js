@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { ActivityIndicator, View, Text, TextInput, StyleSheet, Alert } from 'react-native';
-import { common, darkBlue, navigator } from '../global';
+import { common, colors, navigator } from '../global';
 import AppService from '../AppService';
 import TouchableBox from '../components/TouchableBox';
 import { CheckBox } from 'react-native-elements';
@@ -116,13 +116,13 @@ export default class Email extends Component {
 						disabled = { false }
 						style = {{ width: 300, 
 									height: 80, 
-									backgroundColor: "#69A6D7" }}
+									backgroundColor: colors.darkBlue }}
 						textStyle = {{  color: "white" }}
 						text = "Send"
 					/> }
 					{ this.state.animating && <ActivityIndicator
 						style = {{ marginBottom: 30 }}
-						color = '#69A6D7'
+						color = { colors.darkBlue }
 						size = 'large'
 						animating = { this.state.animating }
 					/> }

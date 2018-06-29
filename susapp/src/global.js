@@ -1,13 +1,26 @@
 import React from 'react';
 import { Dimensions } from 'react-native';
 
-var {height, width} = Dimensions.get('window');
-const sideMargin = 15;
-var maxWidth = width - 2 * sideMargin;
+const {height, width} = Dimensions.get('window');
+
+export const dims = {
+    sideMargin: 15,
+    get contentWidth () { 
+        return width - 2 * dims.sideMargin 
+    },
+    buttonHeight: height / 8,
+}
 
 // COLORS
-export const darkBlue = '#69A6D7';
-export const lightGrey = '#727272';
+export const colors = {
+    darkBlue: '#69A6D7',
+    lightBlue: '#E6F2FB',
+    textBlue: '#306B9A',
+    lightGrey: '#727272',
+    alertRed: '#CD4747',
+    alertGreen: '#69D794',
+    offWhite: '#F7F7F7',
+}
 
 // STYLES
 export const common = {
@@ -21,27 +34,28 @@ export const common = {
     },
     paddedContainer: {
         flex: 1,
-        padding: 15,
+        padding: dims.sideMargin,
     },
     content: {
         flex: 4,
-        alignItems: 'flex-start',
+        // alignItems: 'flex-start',
     },
 	footer: {
 		flex: 1,
 		alignItems: 'center',
-		justifyContent: 'flex-end',
-		marginBottom: 15,
+        justifyContent: 'flex-end',
+        marginTop: dims.sideMargin,
+		marginBottom: dims.sideMargin,
     },
 
     // text
     subtitle: {
         marginBottom: 5,
         fontSize: 14,
-        color: '#727272',
+        color: colors.lightGrey,
     },
     emphasis: {
-        width: maxWidth,
+        width: dims.contentWidth,
         marginBottom: 10,
         fontWeight: '600',
         fontSize: 18,
@@ -54,41 +68,40 @@ export const common = {
 
     // forms
     textField: {
-        width: maxWidth,
-        marginBottom: 15,
+        width: dims.contentWidth,
+        marginBottom: dims.sideMargin,
 		borderColor: '#979797', 
 		borderWidth: 1,
 		borderRadius: 5,
-		padding: 15,
+		padding: dims.sideMargin,
 		fontSize: 16
 	},
 	multilineField: {
 		height: 150,
-        paddingTop: 15,
+        paddingTop: dims.sideMargin,
     },
     checkbox: {
-        width: maxWidth,
+        width: dims.contentWidth,
     },
 
     // buttons
     touchFull: {
-        width: maxWidth,
-        height: 80,
+        width: dims.contentWidth,
+        height: dims.buttonHeight,
         borderRadius: 5,
-        backgroundColor: darkBlue,
+        backgroundColor: colors.darkBlue,
     },
     touchHalf: {
-        margin: 5,
-        width: maxWidth / 2 - 10, 
-        height: 80,
+        width: dims.contentWidth / 2 - 5, 
+        height: dims.buttonHeight,
         borderRadius: 5, 
-        backgroundColor: darkBlue,
+        backgroundColor: colors.darkBlue,
     },
 };
 
 // OBJECTS
 export const navigator = {
-    navBarLeftButtonColor: darkBlue,
-    navBarRightButtonColor: darkBlue,
-    navBarButtonColor: darkBlue,
+    navBarLeftButtonColor: colors.darkBlue,
+    navBarRightButtonColor: colors.darkBlue,
+    navBarButtonColor: colors.darkBlue,
 };

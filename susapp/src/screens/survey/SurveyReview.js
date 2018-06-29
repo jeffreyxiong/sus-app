@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Platform, View, Text, StyleSheet, TextInput, Alert } from 'react-native';
-import { common, darkBlue, navigator } from '../../global';
+import { common, navigator } from '../../global';
 import AppService from '../../AppService';
 import TouchableBox from '../../components/TouchableBox';
 
@@ -52,11 +52,11 @@ export default class Review extends Component {
 							style = {[ styles.textField, styles.multilineField ]}
 							onChangeText = { (notes) => this._handleChange({ notes }) }
 							multiline = { true }
-							returnKeyLabel = { "done" }
-							returnKeyType = { "done" }
+							returnKeyLabel = { 'done' }
+							returnKeyType = { 'done' }
 							blurOnSubmit = { true }
 							value = { this.state.notes }
-							placeholder = "ex: Elaborated on Q2 of SUS"
+							placeholder = 'ex: Elaborated on Q2 of SUS'
 						/>
 					</View>    
 				</View>
@@ -66,8 +66,8 @@ export default class Review extends Component {
 						onPress = { this._handleSave }
 						disabled = { false }
 						style = { styles.touchFull }
-						textStyle = { { color: "white" } }
-						text = "Save Participant"
+						textStyle = { { color: 'white' } }
+						text = 'Save Participant'
 					/>
 				</View>
 			</View>
