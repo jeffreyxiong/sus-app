@@ -1,0 +1,26 @@
+Arguments: 
+  /usr/local/bin/node /usr/local/Cellar/yarn/1.7.0/libexec/bin/yarn.js check
+
+PATH: 
+  /Users/Jeffrey/anaconda2/bin:/Users/Jeffrey/Library/Android/sdk/platform-tools:/Users/Jeffrey/Library/Android/sdk/tools:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/Library/TeX/texbin:/opt/X11/bin:/Applications/Wireshark.app/Contents/MacOS:/usr/local/git/bin:/Users/Jeffrey/Library/Android/sdk/tools:/Users/Jeffrey/Library/Android/sdk/tools/bin:/Users/Jeffrey/Library/Android/sdk/platform-tools
+
+Yarn version: 
+  1.7.0
+
+Node version: 
+  8.11.3
+
+Platform: 
+  darwin x64
+
+Trace: 
+  Error: ENOENT: no such file or directory, open '/Users/Jeffrey/Documents/college/research/sus-app/package.json'
+
+npm manifest: 
+  No manifest
+
+yarn manifest: 
+  No manifest
+
+Lockfile: 
+  No lockfile

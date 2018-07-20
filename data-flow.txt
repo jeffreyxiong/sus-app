@@ -1,0 +1,15 @@
+DATA FLOW
+
+Action: Open App
+-- Home Screen
+    - get realm
+
+Action: Add New Product
+-- NewProduct Screen
+    - write to realm
+
+Action: Select Product
+-- Product Screen
+    - realm -> state
+
+Action: 
