@@ -2,9 +2,9 @@
 
 import { createStackNavigator } from 'react-navigation';
 import Home from './screens/Home';
-// import Info from './screens/Info';
+import Info from './screens/Info';
 // import Email from './screens/Email';
-// import NewProduct from './screens/NewProduct';
+import NewProduct from './screens/NewProduct';
 // import NewParticipant from './screens/NewParticipant';
 // import Product from './screens/Product';
 // import Instructions from './screens/survey/Instructions';
@@ -20,7 +20,7 @@ const HomeStack = createStackNavigator(
 		Home: Home,
 		// Product: Product,
 		// Email: Email,
-		// NewProduct: NewProduct,
+		NewProduct: NewProduct,
 		// NewParticipant: NewParticipant,
 		// SurveyInstructions: Instructions,
 		// SurveyQuestions: Questions,
@@ -58,7 +58,7 @@ export const RootStack = createStackNavigator(
 
 	{
 		Main: HomeStack,
-		// Info: Info,
+		Info: Info,
 	},
 	{
 		mode: 'modal',

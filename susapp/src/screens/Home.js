@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { View, StyleSheet } from 'react-native';
-// import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { common, colors } from '../global';
 import LoadedList from '../containers/LoadedList';
 import TouchableBox from '../components/TouchableBox';
@@ -12,13 +12,17 @@ export default class Home extends Component {
 
 	static navigationOptions = ({ navigation }) => ({
 		title: 'Home',
-		// headerRight: <Icon.Button 
-		// 				onPress = { () => navigation.navigate('Info') } 
-		// 				backgroundColor = { 'white' }
-		// 				name = { 'information' } 
-		// 				iconStyle = {{ color: colors.darkBlue }}
-		// 				size = { 24 }
-		// 			/>
+		headerRight: <Icon.Button 
+						onPress = { () => navigation.navigate('Info') } 
+						backgroundColor = { 'white' }
+						name = { 'information' } 
+						iconStyle = {{ color: colors.darkBlue }}
+						size = { 24 }
+					/>
+		// headerRight: <TouchableWithoutFeedback
+		// 				onPress = { () => navigation.navigate('Info') }>
+		// 				<Text style = {{ padding: 15, color: colors.textBlue, fontSize: 14, fontWeight: '500' }}>Info</Text>
+		// 			</TouchableWithoutFeedback>
 	});
 
 	constructor(props) {
