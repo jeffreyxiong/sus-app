@@ -61,7 +61,7 @@ class Review extends Component {
 							style = {[ styles.textField, styles.multilineField ]}
 							onChangeText = { (notes) => this._handleChange({ notes }) }
                             multiline = { true }
-                            numberOfLines = { 2 }
+                            numberOfLines = { 3 }
 							returnKeyLabel = { 'done' }
 							returnKeyType = { 'done' }
 							blurOnSubmit = { true }

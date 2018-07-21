@@ -17,10 +17,11 @@ export const load = () => {
     }
 }
 
-export const chooseProduct = (name, system) => {
+export const chooseProduct = (name, desc, system) => {
     return {
         type: CHOOSE_PRODUCT,
         name,
+        desc,
         system,
     }
 }

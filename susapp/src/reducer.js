@@ -12,7 +12,7 @@ const data = (state = [], action) => {
     switch(action.type) {
         case LOAD:
             return [
-                ...Array.from(AppService.getProducts()),
+                ...Array.from(AppService.getProducts().map(p => p.name)),
             ];
         default:
             return state;
@@ -24,6 +24,7 @@ const product = (state = {}, action) => {
         case CHOOSE_PRODUCT:
             return {
                 name: action.name,
+                desc: action.desc,
                 system: action.system,
             };
         default:

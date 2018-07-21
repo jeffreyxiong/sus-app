@@ -31,15 +31,16 @@ const specific = {
 const styles = StyleSheet.create(Object.assign({}, common, specific));
 
 const mapStateToProps = state => ({
-	product: state.product.name
+	product: state.product.name,
+	desc: state.product.desc,
 });
 
 const mapDispatchToProps = (dispatch, ownProps) => {
 	return {
 		delete: (product) => {
+			ownProps.navigation.pop();
 			AppService.removeProduct(product);
 			dispatch(load());
-			ownProps.navigation.pop();
 		}
 	}
 };
@@ -59,9 +60,8 @@ class Product extends Component {
 
 	constructor(props) {
 		super(props);
-		p = AppService.getProduct(this.props.product)
-		this.productName = p.name;
-		this.productDesc = p.description;
+		this.productName = this.props.product;
+		this.productDesc = this.props.desc;
 	}
     
     componentDidMount() {

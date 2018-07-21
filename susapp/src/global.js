@@ -41,6 +41,7 @@ export const common = {
 		alignItems: 'center',
 		flexDirection: 'column',
 		justifyContent: 'space-around',
+		backgroundColor: 'white',
 	},
 	paddedContainer: {
 		flex: 1,
@@ -87,7 +88,7 @@ export const common = {
 		fontSize: dims.textMedium,
 	},
 	multilineField: {
-		flex: 1,
+		// flex: 1,
 		paddingTop: 12,
 		textAlignVertical: 'top',
 	},

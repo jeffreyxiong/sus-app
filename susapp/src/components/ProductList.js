@@ -29,6 +29,10 @@ const styles = StyleSheet.create(Object.assign({}, common, specific));
 
 class ProductList extends Component {
 
+	// componentWillReceiveProps() {
+	// 	// this.props.load();
+	// }	
+
     constructor(props) {
 		super(props);
 		this.props.load();
@@ -42,11 +46,11 @@ class ProductList extends Component {
 			return (
 				<TouchableBox 
 					key = { i }
-					onPress = { () => chooseProduct(product.name, product.system) }
+					onPress = { () => chooseProduct(product) }
 					disabled = { false }
 					style = { styles.touchProduct }
 					textStyle = { { color: 'black' } }
-					text = { product.name }
+					text = { product }
 				/>
 			);
 		});

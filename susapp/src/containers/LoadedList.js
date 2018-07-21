@@ -1,5 +1,6 @@
 import { connect } from 'react-redux';
 import { load, chooseProduct } from '../actions';
+import AppService from '../AppService';
 import ProductList from '../components/ProductList';
 
 const mapStateToProps = state => ({
@@ -11,8 +12,9 @@ const mapDispatchToProps = (dispatch, ownProps) => {
         load: () => { 
             dispatch(load());
         },
-        chooseProduct: (name, system) => {
-            dispatch(chooseProduct(name, system));
+        chooseProduct: (name) => {
+            p = AppService.getProduct(name);
+            dispatch(chooseProduct(name, p.description, p.system));
             ownProps.navigate(name);
         }
     }
