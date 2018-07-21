@@ -1,8 +1,8 @@
 // @flow
 
 import React, { Component } from 'react';
-import { View, Text, Alert, Platform, StyleSheet } from 'react-native';
-// import InputScrollView from 'react-native-input-scroll-view';
+import { View, Text, Alert, Platform, StyleSheet, findNodeHandle } from 'react-native';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { common, colors } from '../global';
 import AppService from '../AppService';
 import TextInput from '../components/TextInput';
@@ -21,6 +21,7 @@ export default class NewProduct extends Component {
 		this.state = { name: '', desc: '', product: undefined, system: '', textareaHeight: null, };
 		this.systemInput = null;
 		this.descInput = null;
+		this.scroll = null;
 	}
 
 	/**************************************************************************
@@ -62,6 +63,11 @@ export default class NewProduct extends Component {
 		this.setState(text);
 	}
 
+	_scrollToInput (input) {
+		// Add a 'scroll' ref to your ScrollView
+		this.scroll.scrollToFocusedInput(input)
+	}
+
 	_onContentSizeChange = ({ nativeEvent: event }) => {
 		if (Platform.OS === 'android') {
 			this.setState({ textareaHeight: event.contentSize.height })
@@ -76,7 +82,11 @@ export default class NewProduct extends Component {
 		return (
 			<View style = { styles.container }>
 				<View style = { styles.content }>
-					<View style = { styles.paddedContainer } >
+					<KeyboardAwareScrollView style = { styles.paddedContainer }
+											 resetScrollToCoords={{ x: 0, y: 0 }}
+											 scrollEnabled={false}
+											 extraScrollHeight={ 100 }
+											 ref = { (scroll) => { this.scroll = scroll; }} >
 						<Text style = { styles.emphasis }>
 							This is what you are collecting data for.
 						</Text>
@@ -92,6 +102,9 @@ export default class NewProduct extends Component {
 							placeholder = "Ex: iPhone X Notch"
 							onSubmitEditing = { 
 								(event) => this.systemInput.focus()
+							}
+							onFocus= {
+								(event) => this._scrollToInput(findNodeHandle(event.target))
 							}
 						/>
 						<Text style = { styles.spaced }>Use this word instead of 'system' in the SUS survey: 
@@ -113,6 +126,9 @@ export default class NewProduct extends Component {
 							onSubmitEditing = { 
 								(event) => this.descInput.focus()
 							}
+							onFocus= {
+								(event) => this._scrollToInput(findNodeHandle(event.target))
+							}
 						/>
 						<Text style = { styles.spaced }>Description:
 							<Text style = {{ color: colors.lightGrey, fontStyle: 'italic' }}> (optional)</Text>
@@ -133,8 +149,11 @@ export default class NewProduct extends Component {
 							inputRef = { 
 								(input) => { this.descInput = input; }
 							}
+							onFocus= {
+								(event) => this._scrollToInput(findNodeHandle(event.target))
+							}
 						/>
-					</View>
+					</KeyboardAwareScrollView>
 				</View>
 				<View style = { styles.footer }>
 					<AddProduct create = { this._handleCreate } />

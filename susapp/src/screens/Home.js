@@ -19,10 +19,6 @@ export default class Home extends Component {
 						iconStyle = {{ color: colors.darkBlue }}
 						size = { 24 }
 					/>
-		// headerRight: <TouchableWithoutFeedback
-		// 				onPress = { () => navigation.navigate('Info') }>
-		// 				<Text style = {{ padding: 15, color: colors.textBlue, fontSize: 14, fontWeight: '500' }}>Info</Text>
-		// 			</TouchableWithoutFeedback>
 	});
 
 	constructor(props) {

@@ -8,7 +8,7 @@ export const LOAD = 'LOAD';
 export const CHOOSE_PRODUCT = 'CHOOSE_PRODUCT';
 export const CLEAR_PRODUCT = 'CLEAR_PRODUCT';
 export const START_SURVEY = 'START_SURVEY';
-export const ADD_SCORE = 'ADD_SCORE';
+export const ADD_SCORES = 'ADD_SCORES';
 export const COMPLETE_SURVEY = 'COMPLETE_SURVEY';
 export const EMAIL_SUCCESS = 'EMAIL_SUCCESS';
 // export const SET_FILTER = 'SET_FILTER';
@@ -40,19 +40,16 @@ export const startSurvey = (id, notes) => {
     }
 }
 
-export const addScore = (question, score) => {
+export const addScores = scores => {
     return {
-        type: ADD_SCORE,
-        question,
-        score,
+        type: ADD_SCORES,
+        scores,
     }
 }
 
-export const completeSurvey = (id, scores, notes) => {
+export const completeSurvey = notes => {
     return {
         type: COMPLETE_SURVEY,
-        id,
-        scores,
         notes,
     }
 }

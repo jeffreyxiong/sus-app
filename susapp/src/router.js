@@ -5,10 +5,10 @@ import Home from './screens/Home';
 import Info from './screens/Info';
 // import Email from './screens/Email';
 import NewProduct from './screens/NewProduct';
-// import NewParticipant from './screens/NewParticipant';
-// import Product from './screens/Product';
-// import Instructions from './screens/survey/Instructions';
-// import Questions from './screens/survey/Questions';
+import NewParticipant from './screens/NewParticipant';
+import Product from './screens/Product';
+import Instructions from './screens/survey/Instructions';
+import Questions from './screens/survey/Questions';
 // import Finish from './screens/survey/Finish';
 // import Handoff from './screens/survey/Handoff';
 // import Review from './screens/survey/Review';
@@ -18,12 +18,12 @@ import { colors } from './global';
 const HomeStack = createStackNavigator(
 	{
 		Home: Home,
-		// Product: Product,
+		Product: Product,
 		// Email: Email,
 		NewProduct: NewProduct,
-		// NewParticipant: NewParticipant,
-		// SurveyInstructions: Instructions,
-		// SurveyQuestions: Questions,
+		NewParticipant: NewParticipant,
+		SurveyInstructions: Instructions,
+		SurveyQuestions: Questions,
 		// SurveyFinish: Finish,
 		// SurveyHandoff: Handoff,
 		// SurveyReview: Review,

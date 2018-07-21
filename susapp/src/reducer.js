@@ -6,7 +6,7 @@ import { LOAD,
          CLEAR_PRODUCT,
          SET_FILTER, 
          START_SURVEY, 
-         ADD_SCORE, 
+         ADD_SCORES, 
          COMPLETE_SURVEY, 
          ADD_PRODUCT} from './actions';
 
@@ -45,11 +45,12 @@ const survey = (state = {}, action) => {
                 id: action.id,
                 notes: action.notes,
             });
-        case ADD_SCORE: 
+        case ADD_SCORES: 
             return Object.assign({}, state, {
                 score: action.score,
                 question: action.question
-            })
+            });
+        case S
         default:
             return state;
     }
