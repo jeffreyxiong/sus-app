@@ -4,18 +4,18 @@ import { createStore, applyMiddleware } from 'redux';
 import { Provider } from 'react-redux';
 import logger from 'redux-logger';
 import app from './src/reducer';
-import { RootStack } from './src/router';
+import Root from './src/router';
 
 const store = createStore(app, applyMiddleware(logger));
 
 export default class App extends Component {
 
-  render() {
-      return (
-    <Provider store = { store }>
-        <RootStack />
-    </Provider>
-    );
-}
+    render() {
+        return (
+            <Provider store = { store }>
+                <Root />
+            </Provider>
+        );
+    }
 
 }

@@ -6,12 +6,7 @@ import { LOAD,
          START_SURVEY, 
          ADD_SCORES, 
          EMAIL_SUCCESS} from './actions';
-
 import AppService from './AppService';
-
-/*
- * App-wide reducers for Redux.
- */
 
 const data = (state = [], action) => {
     switch(action.type) {
@@ -64,17 +59,6 @@ const email = (state = null, action) => {
 // const filter = (state = [], action) => {
 //     switch (action.type) {
 //         case SET_FILTER:
-//             return state;
-//     }
-// }
-
-// const survey = (state = [], action) => {
-//     switch (action.type) {
-//         case START_SURVEY:
-//             return [];
-//         case ADD_SCORE:
-//             return state;
-//         case COMPLETE_SURVEY:
 //             return state;
 //     }
 // }

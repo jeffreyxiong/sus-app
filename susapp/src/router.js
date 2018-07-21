@@ -1,5 +1,9 @@
 // @flow
 
+import React, { Component } from 'react';
+import { View, StatusBar } from 'react-native';
+import { connect } from 'react-redux';
+import StatusBarAlert from 'react-native-statusbar-alert';
 import { createStackNavigator } from 'react-navigation';
 import Home from './screens/Home';
 import Info from './screens/Info';
@@ -54,7 +58,7 @@ const HomeStack = createStackNavigator(
 	},
 );
 
-export const RootStack = createStackNavigator(
+const RootStack = createStackNavigator(
 
 	{
 		Main: HomeStack,
@@ -66,5 +70,44 @@ export const RootStack = createStackNavigator(
 	},
 );
 
+const mapStateToProps = state => ({
+	email: state.email,
+});
 
+class Root extends Component {
+
+	componentWillReceiveProps(props) {
+		this.setState({
+			alert: props.email,
+		});
+		setTimeout(() => { 
+			this.setState({ alert: null })
+		}, 4000);
+	}
+
+	state = {
+		alert: null,
+	}
+
+	render() {
+        return (
+			<View style = {{ flex: 1, backgroundColor: 'white' }}>
+				<StatusBar />
+				<StatusBarAlert
+					visible = { this.state.alert != null }
+					message = { this.state.alert == true ? "Email was sent successfully." : "Error sending email. Try again later!" }
+					backgroundColor = { this.state.alert == true ? colors.alertGreen : colors.alertRed }
+					color = "white"
+					height = { 35 } />
+				<RootStack />
+			</View>
+        );
+    }
+}
+
+Root = connect(
+	mapStateToProps,
+)(Root)
+
+export default Root;
 
