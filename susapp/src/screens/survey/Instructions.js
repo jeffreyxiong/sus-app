@@ -20,7 +20,7 @@ const styles = StyleSheet.create(Object.assign({}, common, specific));
 
 export default class Instructions extends Component {
 
-    static navigationOptions = () => ({
+    static navigationOptions = ({ navigation }) => ({
 		title: "SUS Instructions",
 	});
 
@@ -29,6 +29,7 @@ export default class Instructions extends Component {
 	}
 
 	_handleStart = () => {
+		console.log('why');
 		this.props.navigation.navigate('SurveyQuestions');
 	}
 

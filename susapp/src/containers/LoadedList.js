@@ -11,9 +11,9 @@ const mapDispatchToProps = (dispatch, ownProps) => {
         load: () => { 
             dispatch(load());
         },
-        chooseProduct: product => {
-            dispatch(chooseProduct(product));
-            ownProps.navigate(product);
+        chooseProduct: (name, system) => {
+            dispatch(chooseProduct(name, system));
+            ownProps.navigate(name);
         }
     }
 }

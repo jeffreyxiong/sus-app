@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Platform, View, Text, StyleSheet, Alert } from 'react-native';
+import { connect } from 'react-redux';
 import { common } from '../global';
 import AppService from '../AppService';
 import TextInput from '../components/TextInput';
@@ -7,15 +8,18 @@ import AddParticipant from '../containers/AddParticipant';
 
 const styles = StyleSheet.create(common);
 
+const mapStateToProps = (state) => ({
+    product: state.product.name
+})
+
 class NewParticipant extends Component {
 
-	static navigationOptions = ({ navigation, screenProps }) => ({
+	static navigationOptions = () => ({
 		title: "Add a New Participant",
 	});
 	
 	constructor(props) {
 		super(props);
-		this.productName = this.props.navigation.getParam('productName');
 		this.state = { id: '', notes: '' };
 		this.descInput = null;
 	}
@@ -29,7 +33,7 @@ class NewParticipant extends Component {
 	}
 
 	_handleContinue = (callback) => {
-		let res = AppService.checkParticipant(this.productName, this.state.id);
+		let res = AppService.checkParticipant(this.props.product, this.state.id);
 		
 		if (res == -1) {
 			Alert.alert(
@@ -112,5 +116,9 @@ class NewParticipant extends Component {
 	}
 
 }
+
+NewParticipant = connect(
+    mapStateToProps,
+)(NewParticipant);
 
 export default NewParticipant;

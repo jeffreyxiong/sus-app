@@ -3,12 +3,9 @@
 import { combineReducers } from 'redux';
 import { LOAD,
          CHOOSE_PRODUCT,
-         CLEAR_PRODUCT,
-         SET_FILTER, 
          START_SURVEY, 
          ADD_SCORES, 
-         COMPLETE_SURVEY, 
-         ADD_PRODUCT} from './actions';
+         EMAIL_SUCCESS} from './actions';
 
 import AppService from './AppService';
 
@@ -27,12 +24,13 @@ const data = (state = [], action) => {
     }
 }
 
-const product = (state = null, action) => {
+const product = (state = {}, action) => {
     switch(action.type) {
         case CHOOSE_PRODUCT:
-            return action.name;
-        case CLEAR_PRODUCT:
-            return null;
+            return {
+                name: action.name,
+                system: action.system,
+            };
         default:
             return state;
     }
@@ -41,16 +39,23 @@ const product = (state = null, action) => {
 const survey = (state = {}, action) => {
     switch(action.type) {
         case START_SURVEY:
-            return Object.assign({}, state, {
+            return {
                 id: action.id,
                 notes: action.notes,
-            });
+            };
         case ADD_SCORES: 
             return Object.assign({}, state, {
-                score: action.score,
-                question: action.question
+                scores: action.scores,
             });
-        case S
+        default:
+            return state;
+    }
+}
+
+const email = (state = null, action) => {
+    switch(action.type) {
+        case EMAIL_SUCCESS:
+            return action.success;
         default:
             return state;
     }
@@ -77,6 +82,6 @@ const survey = (state = {}, action) => {
 export default combineReducers({
     data,
     product,
-    // filter,
+    email,
     survey,
 });

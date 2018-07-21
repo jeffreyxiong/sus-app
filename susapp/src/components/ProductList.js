@@ -42,7 +42,7 @@ class ProductList extends Component {
 			return (
 				<TouchableBox 
 					key = { i }
-					onPress = { () => chooseProduct(product.name) }
+					onPress = { () => chooseProduct(product.name, product.system) }
 					disabled = { false }
 					style = { styles.touchProduct }
 					textStyle = { { color: 'black' } }

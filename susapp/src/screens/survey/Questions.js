@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
 import { Dimensions, View, Text, StyleSheet } from 'react-native';
 import { common, colors, dims } from '../../global';
-import AppService from '../../model/AppService';
 import TouchableBox from '../../components/TouchableBox';
 import AnimatedBar from 'react-native-animated-bar';
 import RadioForm, {RadioButton, RadioButtonInput, RadioButtonLabel} from 'react-native-simple-radio-button';
+import { addScores } from '../../actions';
+import { connect } from 'react-redux';
 
 const specific = {
 	hbuttons: {
@@ -45,19 +46,20 @@ const radio_props = [
 const width = Dimensions.get('window').width;
 
 const mapStateToProps = state => ({
-	product: state.product
+    system: state.product.system,
 });
 
-const mapDispatchToProps = (dispatch, ownProps) => {
+const mapDispatchToProps = dispatch => {
 	return {
-		delete: (product) => {
+		addScores: (scores) => {
+            dispatch(addScores(scores));
 		},
 	}
 };
 
 class Questions extends Component {
 
-    static navigationOptions = ({ navigation, screenProps }) => ({
+    static navigationOptions = () => ({
 		title: "SUS Survey",
 	});
 
@@ -66,21 +68,19 @@ class Questions extends Component {
 
 		this.state = { qid: 0, value: 0, progress: 0.1, };
 		this.response = Array.apply(null, Array(10)).map(Number.prototype.valueOf,0);
-		let product = AppService.getProduct(this.productName);
-		this.systemName = product.system;
 	}
 
 	questions = [ 
-		'I think that I would like to use this ' + this.systemName + ' frequently.',
-		'I found the ' + this.systemName + ' unnecessarily complex.',
-		'I thought the ' + this.systemName + ' was easy to use.',
-		'I think that I would need the support of a technical person to be able to use this ' + this.systemName + '.',
-		'I found the various functions in this ' + this.systemName + ' were well integrated.',
-		'I thought there was too much inconsistency in this ' + this.systemName + '.',
-		'I would imagine that most people would learn to use this ' + this.systemName + ' very quickly.',
-		'I found the ' + this.systemName + ' very awkward to use.',
-		'I felt very confident using the ' + this.systemName + '.',
-		'I needed to learn a lot of things before I could get going with this ' + this.systemName + '.' 
+		'I think that I would like to use this ' + this.props.system + ' frequently.',
+		'I found the ' + this.props.system + ' unnecessarily complex.',
+		'I thought the ' + this.props.system + ' was easy to use.',
+		'I think that I would need the support of a technical person to be able to use this ' + this.props.system + '.',
+		'I found the various functions in this ' + this.props.system + ' were well integrated.',
+		'I thought there was too much inconsistency in this ' + this.props.system + '.',
+		'I would imagine that most people would learn to use this ' + this.props.system + ' very quickly.',
+		'I found the ' + this.props.system + ' very awkward to use.',
+		'I felt very confident using the ' + this.props.system + '.',
+		'I needed to learn a lot of things before I could get going with this ' + this.props.system + '.' 
 	];
 
 	_handleNext = () => {
@@ -103,13 +103,9 @@ class Questions extends Component {
 	}
 
 	_handleFinish = () => {
-		this.response[this.state.qid] = this.state.value;
-		this.props.navigation.navigate('SurveyFinish', {
-			participantName: this.participantName,
-            productName: this.productName,
-			notes: this.notes,
-			response: this.response,
-		});
+        this.response[this.state.qid] = this.state.value;
+        this.props.addScores(this.response);
+		this.props.navigation.navigate('SurveyFinish');
 	}
 
 	_renderBox = (text, callback, disabled) => {

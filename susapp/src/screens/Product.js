@@ -6,7 +6,7 @@ import AppService from '../AppService';
 import TouchableBox from '../components/TouchableBox';
 import { connect } from 'react-redux';
 import ProductDetail from '../components/ProductDetail'
-import { load, clearProduct } from '../actions';
+import { load } from '../actions';
 
 const specific = {
 	scene: {
@@ -31,19 +31,15 @@ const specific = {
 const styles = StyleSheet.create(Object.assign({}, common, specific));
 
 const mapStateToProps = state => ({
-	product: state.product
+	product: state.product.name
 });
 
 const mapDispatchToProps = (dispatch, ownProps) => {
 	return {
 		delete: (product) => {
-			dispatch(clearProduct());
 			AppService.removeProduct(product);
 			dispatch(load());
 			ownProps.navigation.pop();
-		},
-		clear: () => {
-			dispatch(clearProduct());
 		}
 	}
 };
@@ -81,7 +77,9 @@ class Product extends Component {
 	}
 
 	_handleEmail = () => {
-		this.props.navigation.navigate('Email');
+		this.props.navigation.navigate('Email', {
+			productName: this.productName,
+		});
 	}
 
 	_handleDelete = () => {

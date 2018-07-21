@@ -6,10 +6,8 @@
 
 export const LOAD = 'LOAD';
 export const CHOOSE_PRODUCT = 'CHOOSE_PRODUCT';
-export const CLEAR_PRODUCT = 'CLEAR_PRODUCT';
 export const START_SURVEY = 'START_SURVEY';
 export const ADD_SCORES = 'ADD_SCORES';
-export const COMPLETE_SURVEY = 'COMPLETE_SURVEY';
 export const EMAIL_SUCCESS = 'EMAIL_SUCCESS';
 // export const SET_FILTER = 'SET_FILTER';
 
@@ -19,16 +17,11 @@ export const load = () => {
     }
 }
 
-export const chooseProduct = name => {
+export const chooseProduct = (name, system) => {
     return {
         type: CHOOSE_PRODUCT,
         name,
-    }
-}
-
-export const clearProduct = () => {
-    return {
-        type: CLEAR_PRODUCT,
+        system,
     }
 }
 
@@ -44,13 +37,6 @@ export const addScores = scores => {
     return {
         type: ADD_SCORES,
         scores,
-    }
-}
-
-export const completeSurvey = notes => {
-    return {
-        type: COMPLETE_SURVEY,
-        notes,
     }
 }
 
