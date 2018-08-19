@@ -6,6 +6,7 @@ import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view
 import { common, colors } from '../global';
 import AppService from '../AppService';
 import TextInput from '../components/TextInput';
+import Container from '../components/Container';
 import AddProduct from '../containers/AddProduct';
 
 const styles = StyleSheet.create(common);
@@ -13,7 +14,7 @@ const styles = StyleSheet.create(common);
 export default class NewProduct extends Component {
 
 	static navigationOptions = () => ({
-		title: "Add a New Product",
+		title: "New Product",
 	});
 
 	constructor(props) {
@@ -80,7 +81,7 @@ export default class NewProduct extends Component {
 
 	render () {
 		return (
-			<View style = { styles.container }>
+			<Container style = { styles.container }>
 				<View style = { styles.content }>
 					<KeyboardAwareScrollView style = { styles.paddedContainer }
 											 resetScrollToCoords={{ x: 0, y: 0 }}
@@ -158,7 +159,7 @@ export default class NewProduct extends Component {
 				<View style = { styles.footer }>
 					<AddProduct create = { this._handleCreate } />
 				</View>
-			</View>
+			</Container>
 		);
 	}
 }

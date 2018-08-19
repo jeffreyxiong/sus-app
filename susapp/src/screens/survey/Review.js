@@ -1,16 +1,16 @@
 import React, { Component } from 'react';
 import { View, Text, StyleSheet, TextInput } from 'react-native';
 import { connect } from 'react-redux';
-import { load, completeSurvey } from '../../actions';
 import { common, dims } from '../../global';
 import TouchableBox from '../../components/TouchableBox';
+import Container from '../../components/Container';
 import AppService from '../../AppService';
 
 const specific = {
     text: {
 		marginTop: 5,
 		marginBottom: 5,
-		fontSize: dims.textLarge
+		fontSize: dims.textMedium
     },
 };
 
@@ -28,6 +28,7 @@ class Review extends Component {
 
 	static navigationOptions = () => ({
 		title: "SUS Survey",
+		headerLeft: null,
 	});
 
     constructor(props) {
@@ -51,7 +52,7 @@ class Review extends Component {
     
     render() {
 		return (
-			<View style = { styles.container }>
+			<Container style = { styles.container }>
 				<View style = { styles.content }>
                     <View style = { styles.paddedContainer }>
 						<Text style = { styles.text }>Participant: { this.props.id }</Text>
@@ -80,7 +81,7 @@ class Review extends Component {
 						text = 'Save Participant'
 					/>
 				</View>
-			</View>
+			</Container>
 		);
 	}
 }

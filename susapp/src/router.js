@@ -17,7 +17,7 @@ import Finish from './screens/survey/Finish';
 import Handoff from './screens/survey/Handoff';
 import Review from './screens/survey/Review';
 
-import { colors } from './global';
+import { colors, dims } from './global';
 
 const HomeStack = createStackNavigator(
 	{
@@ -38,18 +38,22 @@ const HomeStack = createStackNavigator(
 			headerStyle: {
 				backgroundColor: 'white',
 				shadowColor: 'transparent',
+				shadowOpacity: 0, 
 				borderBottomWidth: 0,
 				elevation: 0,
 			},
 			headerTintColor: colors.darkBlue,
 			headerTitleStyle: {
 				color: 'black',
-				fontSize: 18,
+				fontSize: dims.textMedium,
+				fontWeight: '500',
 			},
 			headerBackTitle: null,
 		},
 		cardStyle: {
 			backgroundColor: 'white',
+			shadowColor: 'transparent',
+			shadowOpacity: 0, 
 		},
 		transitionConfig: () => ({
 			containerStyle: {
@@ -78,15 +82,17 @@ class Root extends Component {
 
 	componentWillReceiveProps(props) {
 		this.setState({
-			alert: props.email,
+			alert: true,
+			happy: props.email,
 		});
 		setTimeout(() => { 
 			this.setState({ alert: null })
-		}, 4000);
+		}, 3000);
 	}
 
 	state = {
 		alert: null,
+		happy: true,
 	}
 
 	render() {
@@ -95,8 +101,8 @@ class Root extends Component {
 				<StatusBar />
 				<StatusBarAlert
 					visible = { this.state.alert != null }
-					message = { this.state.alert == true ? "Email was sent successfully." : "Error sending email. Try again later!" }
-					backgroundColor = { this.state.alert == true ? colors.alertGreen : colors.alertRed }
+					message = { this.state.happy == true ? "Email was sent successfully." : "Error sending email. Try again later!" }
+					backgroundColor = { this.state.happy == true ? colors.alertGreen : colors.alertRed }
 					color = "white"
 					height = { 35 } />
 				<RootStack />

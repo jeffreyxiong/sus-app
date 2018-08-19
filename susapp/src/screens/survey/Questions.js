@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
 import { Dimensions, View, Text, StyleSheet } from 'react-native';
+import RadioForm, {RadioButton, RadioButtonInput, RadioButtonLabel} from 'react-native-simple-radio-button';
+import AnimatedBar from 'react-native-animated-bar';
+import { connect } from 'react-redux';
+import { addScores } from '../../actions';
 import { common, colors, dims } from '../../global';
 import TouchableBox from '../../components/TouchableBox';
-import AnimatedBar from 'react-native-animated-bar';
-import RadioForm, {RadioButton, RadioButtonInput, RadioButtonLabel} from 'react-native-simple-radio-button';
-import { addScores } from '../../actions';
-import { connect } from 'react-redux';
+import Container from '../../components/Container';
 
 const specific = {
 	hbuttons: {
@@ -28,7 +29,7 @@ const specific = {
 	},
 	label: {
 		width: 80, 
-		fontSize: dims.textMedium, 
+		fontSize: dims.textSmall, 
 		color: colors.lightGrey,
 	},
 };
@@ -61,6 +62,7 @@ class Questions extends Component {
 
     static navigationOptions = () => ({
 		title: "SUS Survey",
+		headerLeft: null,
 	});
 
 	constructor(props) {
@@ -193,11 +195,11 @@ class Questions extends Component {
 
 	render() {
 		return (
-			<View style = { styles.container }>
+			<Container style = { styles.container }>
 				<View style = { styles.content }>
 					<View style = { styles.paddedContainer }>
 						<Text style = {[ styles.emphasis, { flex: 1, }]}>{ this.questions[this.state.qid] }</Text>
-						<View style = {{ flex: 4, flexDirection: 'column', justifyContent: 'space-around', }}>
+						<View style = {{ flex: 3, flexDirection: 'column', justifyContent: 'space-around', }}>
 							<View style = {[ styles.labelWrap, { alignItems: 'flex-start', }]}>
 								<Text style = {[ styles.label, { textAlign: 'left' }]}>Strongly Disagree</Text>
 								<Text style = {[ styles.label, { textAlign: 'right' }]}>Strongly Agree</Text>
@@ -223,7 +225,7 @@ class Questions extends Component {
 						{ this._renderFinish() }
 					</View>
 				</View>
-			</View>
+			</Container>
 		);
 	}
 }

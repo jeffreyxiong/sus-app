@@ -9,12 +9,12 @@ export const dims = {
 	get contentWidth () { 
 			return width - 2 * dims.marginStandard 
 	},
-	buttonHeight: 80,
+	buttonHeight: 75,
 	// text stuff 
 	textMarginL: width > threshold ? 20 : 10,
 	textMarginS: 5,
 	textSmall: width > threshold ? 16 : 14,
-	textMedium: width > threshold ? 18 : 16,
+	textMedium: width > threshold ? 20 : 16,
 	textLarge: width > threshold ? 20 : 18,
 }
 
@@ -68,12 +68,12 @@ export const common = {
 		width: dims.contentWidth,
 		marginBottom: dims.textMarginL,
 		fontWeight: '600',
-		fontSize: dims.textLarge,
+		fontSize: dims.textMedium,
 	},
 	spaced: {
 		marginTop: dims.textMarginS,
 		marginBottom: dims.textMarginS,
-		fontSize: dims.textLarge,
+		fontSize: dims.textMedium,
 	},
 
 	// forms

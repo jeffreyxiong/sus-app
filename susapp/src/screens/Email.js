@@ -5,6 +5,7 @@ import { emailSuccess } from '../actions';
 import { common, colors, dims } from '../global';
 import AppService from '../AppService';
 import TouchableBox from '../components/TouchableBox';
+import Container from '../components/Container';
 import { CheckBox } from 'react-native-elements';
 
 const styles = StyleSheet.create(common);
@@ -80,7 +81,7 @@ class Email extends Component {
 
     render() {
 		return (
-			<View style = { styles.container }>
+			<Container style = { styles.container }>
 				<View style = { styles.content }>
 					<View style = { styles.paddedContainer }>
 						<Text style = { styles.emphasis }>
@@ -129,7 +130,7 @@ class Email extends Component {
 						animating = { this.state.animating }
 					/> }
 				</View>
-			</View>
+			</Container>
 		);
 	}
 }
