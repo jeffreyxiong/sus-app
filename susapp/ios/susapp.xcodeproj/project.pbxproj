@@ -1467,6 +1467,7 @@
 					"-ObjC",
 					"-lc++",
 				);
+				PRODUCT_BUNDLE_IDENTIFIER = edu.rice.susapp;
 				PRODUCT_NAME = susapp;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
@@ -1492,6 +1493,7 @@
 					"-ObjC",
 					"-lc++",
 				);
+				PRODUCT_BUNDLE_IDENTIFIER = edu.rice.susapp;
 				PRODUCT_NAME = susapp;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
