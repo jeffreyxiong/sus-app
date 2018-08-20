@@ -4,6 +4,7 @@ ReactNative app to help usability researchers collect SUS (system usability scal
 ### Development Process
 #### Branches
 `develop` - development configuration; branch off develop to work and debug
+
 `release` - release configuration; merge / pull request to release to bring in finished changes
 
 ### Acknowledgements
