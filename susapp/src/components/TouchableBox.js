@@ -17,7 +17,7 @@ const styles = StyleSheet.create({
 		margin: 5,
 	},
 	text: {
-		fontSize: dims.textLarge,
+		fontSize: dims.textMedium,
 		fontWeight: '600',
 	}
 });

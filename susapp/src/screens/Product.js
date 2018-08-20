@@ -5,7 +5,8 @@ import { common, colors, dims } from '../global';
 import AppService from '../AppService';
 import TouchableBox from '../components/TouchableBox';
 import { connect } from 'react-redux';
-import ProductDetail from '../components/ProductDetail'
+import ProductDetail from '../components/ProductDetail';
+import Container from '../components/Container';
 import { load } from '../actions';
 
 const specific = {
@@ -15,7 +16,7 @@ const specific = {
 		padding: dims.marginStandard,
 	},
 	text: {
-		fontSize: dims.textLarge,
+		fontSize: dims.textMedium,
 		marginBottom: dims.textMarginL,
 	},
 	columnText: {
@@ -26,7 +27,10 @@ const specific = {
 	number: {
 		color: colors.textBlue,
 		fontWeight: '600',
-	}
+	},
+	productFooter: {
+		minHeight: dims.buttonHeight / 2,
+	},
 }
 const styles = StyleSheet.create(Object.assign({}, common, specific));
 
@@ -96,7 +100,7 @@ class Product extends Component {
 	render() {
 		dataSet = AppService.getStat(this.productName)
 		return (
-			<View style={ styles.container }>
+			<Container style={ styles.container }>
 				<ProductDetail style = {{ flex: 2, }}>
 					<View style = { styles.scene }>
 						<Text style = { styles.text }>{ this.productDesc }</Text>
@@ -118,7 +122,7 @@ class Product extends Component {
 						</View>
 					</View>
 				</ProductDetail>
-				<View style={ styles.footer }>
+				<View style={[ styles.footer, styles.productFooter ]}>
 					<TouchableBox 
 						onPress = { this._handleAddParticipant }
 						disabled = { false }
@@ -134,7 +138,7 @@ class Product extends Component {
 						text = 'Email Product Data'
 					/>
 				</View>
-			</View>
+			</Container>
 		);
 	}
 }

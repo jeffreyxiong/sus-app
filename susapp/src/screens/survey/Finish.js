@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { common } from '../../global';
 import TouchableBox from '../../components/TouchableBox';
+import Container from '../../components/Container';
 
 const styles = StyleSheet.create(common);
 
@@ -9,6 +10,7 @@ export default class Finish extends Component {
 
 	static navigationOptions = () => ({
 		title: "SUS Survey",
+		headerLeft: null,
 	});
 
     constructor(props) {
@@ -21,7 +23,7 @@ export default class Finish extends Component {
 
     render() {
 		return (
-			<View style = { styles.container }>
+			<Container style = { styles.container }>
 				<View style = { styles.content }>
 					<View style = { styles.paddedContainer }>
 						<Text style = {[ styles.emphasis, { textAlign: 'center' }]}>You've Finished!</Text>
@@ -37,7 +39,7 @@ export default class Finish extends Component {
 						text = 'Confirm'
 					/>
 				</View>
-			</View>
+			</Container>
 		);
 	}
 

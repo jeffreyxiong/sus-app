@@ -1,10 +1,13 @@
 import React, { Component } from 'react';
 import { Platform, View, Text, StyleSheet, Alert } from 'react-native';
+import InputScrollView from 'react-native-input-scroll-view';
 import { connect } from 'react-redux';
 import { common } from '../global';
 import AppService from '../AppService';
 import TextInput from '../components/TextInput';
+import Container from '../components/Container';
 import AddParticipant from '../containers/AddParticipant';
+
 
 const styles = StyleSheet.create(common);
 
@@ -15,7 +18,7 @@ const mapStateToProps = (state) => ({
 class NewParticipant extends Component {
 
 	static navigationOptions = () => ({
-		title: "Add a New Participant",
+		title: "New Participant",
 	});
 	
 	constructor(props) {
@@ -67,9 +70,9 @@ class NewParticipant extends Component {
 
 	render () {
 		return (
-			<View style = { styles.container }>
+			<Container style = { styles.container }>
 				<View style = { styles.content }>
-					<View style = { styles.paddedContainer }>
+					<InputScrollView style = { styles.paddedContainer }>
 						<Text style = { styles.emphasis }>
 							After you enter the participant ID and any notes, hand 
 							the participant the device to complete a SUS survey.
@@ -106,12 +109,12 @@ class NewParticipant extends Component {
 								(input) => { this.descInput = input; }
 							}
 						/>
-					</View>
+					</InputScrollView>
 				</View>
 				<View style = { styles.footer }>
 					<AddParticipant create = { this._handleContinue } />
 				</View>
-			</View>
+			</Container>
 		);
 	}
 
