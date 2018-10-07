@@ -1469,6 +1469,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = edu.rice.susapp;
 				PRODUCT_NAME = susapp;
+				TARGETED_DEVICE_FAMILY = 1;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Debug;
@@ -1495,6 +1496,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = edu.rice.susapp;
 				PRODUCT_NAME = susapp;
+				TARGETED_DEVICE_FAMILY = 1;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Release;
