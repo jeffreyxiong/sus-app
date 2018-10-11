@@ -2,7 +2,7 @@
 
 import RNFS from 'react-native-fs';
 import { SERVER_URL } from 'react-native-dotenv';
-import Blob from 'react-native-fetch-blob';
+import Blob from 'rn-fetch-blob';
 
 class FileService {
 
