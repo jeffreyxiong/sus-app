@@ -199,20 +199,22 @@ class AppService {
 		var p = this.getProduct(product);
 
 		if (typeof p != 'undefined') {
-			var data = 'Product Name\t \
-					Participant ID\t \
-					Notes\t \
-					SUS 1\t \
-					SUS 2\t \
-					SUS 3\t \
-					SUS 4\t \
-					SUS 5\t \
-					SUS 6\t \
-					SUS 7\t \
-					SUS 8\t \
-					SUS 9\t \
-					SUS 10\t \
-					SUS Score\n'
+			var data = this.tabulate([
+				'Product Name', 
+				'Participant ID', 
+				'Notes', 
+				'SUS 1', 
+				'SUS 2', 
+				'SUS 3', 
+				'SUS 4', 
+				'SUS 5', 
+				'SUS 6', 
+				'SUS 7', 
+				'SUS 8', 
+				'SUS 9', 
+				'SUS 10', 
+				'SUS Score'
+			]) + '\n';
 
 			for (var participant of p.participants) {
 				data += this.tabulate([ p.name, 
@@ -221,6 +223,8 @@ class AppService {
 				data += this.tabulate(participant.survey.map(x => x.value))
 				data += this.getScore(participant.id) + '\n'
 			}
+
+			console.log(data);
 			
 			FileService.writeFile(product, data);
 
