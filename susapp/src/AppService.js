@@ -178,7 +178,7 @@ class AppService {
 
 			var scores = p.participants.map(x => this.getScore(x.id));
 
-			stat.mean = scores.reduce((x, y) => (x + y) / stat.size);
+			stat.mean = scores.reduce((x, y) => (x + y)) / stat.size;
 			if (stat.size == 1) stat.std = 0;
 			else {
 				stat.std = Math.sqrt(scores.map(x => Math.pow(x - stat.mean, 2))
